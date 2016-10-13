@@ -14,9 +14,9 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
-import com.cn.uuu.pojo.User;
-import com.cn.uuu.service.UserService;
-import com.cn.uuu.service.impl.UserServiceImpl;
+import com.cn.tju.pojo.User;
+import com.cn.tju.service.UserService;
+import com.cn.tju.service.impl.UserServiceImpl;
 
 public class TestMyBatis {
 	
