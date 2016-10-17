@@ -2,3 +2,6 @@ logs
 target
 /target
 /logs
+/BuildEnergy.iml
+/.idea
+/.tern-project

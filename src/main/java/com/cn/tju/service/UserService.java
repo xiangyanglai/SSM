@@ -4,18 +4,18 @@ import com.cn.tju.pojo.User;
 
 public interface UserService {  	
 
-	public User user(User user);
+	User user(User user);
 	
-	public User selectLogin(String username);
+	User selectLogin(String username);
 
-	public User getUserById(int i);
+	User getUserById(int i);
 
-	public User selectByPrimaryKey(int i);
+	User selectByPrimaryKey(int i);
 	
-	public User getUserByusername(String username);
+	User getUserByusername(String username);
 	
-	public int inster(User user);
+	int inster(User user);
 	
-	public Boolean getLoginUser(User user);
+	Boolean getLoginUser(User user);
 
 }  
