@@ -14,9 +14,9 @@
 	<security:http auto-config="true" use-expressions="true" access-denied-page="/auth/denied">
 
 		<security:intercept-url pattern="/auth/login" access="permitAll"/>
+		<security:intercept-url pattern="/system/*" access="permitAll"/>
 		<security:intercept-url pattern="/main/admin/**" access="hasRole('ROLE_ADMIN')"/>
-		<security:intercept-url pattern="/main/user/**" access="hasRole('ROLE_USER')"/>
-		<security:intercept-url pattern="/system/data/**" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
 
 
 	<!--定义固定导向-->
