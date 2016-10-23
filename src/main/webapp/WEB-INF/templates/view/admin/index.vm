@@ -1,0 +1,99 @@
+#set($title="建筑环境能耗智能管理系统")
+<style type="text/css">
+    .info_panel{
+        background: gray;
+        padding-bottom: 15px;
+        padding-top: 15px;
+        margin: 5px 0;
+    }
+    .number{
+        margin-right: 5px;
+    }
+    .info_number{
+        padding-top: 5%;
+    }
+    .auto_image{
+        width: 100%;
+    }
+    .info_panel img{
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<div class="row">
+    <div class="col-md-6 col-xs-12 col-sm-6 col-lg-3">
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 info_panel bg-grey-salt">
+            <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4">
+                <img src="/assets/images/total.png">
+            </div>
+            <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8 info_number">
+               <span>建筑总能耗</span> 
+               <br> 
+               <div class="sbold">
+                   <span class="number">30.95</span>KWH 
+               </div>
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-6 col-xs-12 col-sm-6 col-lg-3">
+        <div class=" info_panel col-xs-12 col-sm-12 col-lg-12 bg-grey-salt">
+            <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4">
+                <img src="/assets/images/single.png">
+            </div>
+            <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8 info_number">
+               <span>单位面积能耗</span> 
+               <br> 
+               <div class="sbold">
+                   <span class="number">30.95</span>KWH 
+               </div>
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-6 col-xs-12 col-sm-6 col-lg-3">
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 info_panel bg-grey-salt">
+            <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4">
+                <img src="/assets/images/machine.png">
+            </div>
+            <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8 info_number">
+               <span>空调主机COP</span> 
+               <br> 
+               <div class="sbold">
+                   <span class="number">30.95</span>KWH 
+               </div>
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-6 col-xs-12 col-sm-6 col-lg-3">
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 info_panel bg-grey-salt">
+            <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4">
+                <img src="/assets/images/efficiency.png">
+            </div>
+            <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8 info_number">
+               <span>空调系统能效</span> 
+               <br> 
+               <div class="sbold">
+                   <span class="number">30.95</span>KWH 
+               </div>
+            </div>
+        </div>
+    </div> 
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- END ACCORDION PORTLET-->
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>系统图示</div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <img src="http://placehold.it/800x600" class="auto_image">
+            </div>
+        </div>
+    </div>
+</div>
+           

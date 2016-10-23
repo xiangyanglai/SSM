@@ -25,4 +25,10 @@ public class AdminController {
         log.info("user");
         return "admin/indexuser";
     }
+
+    @RequestMapping(value = "/admin/user_manage", method = RequestMethod.GET)
+    public String user_manage(HttpServletRequest request, Model model) {
+        log.info("用户管理");
+        return "admin/user_manage";
+    }
 }
