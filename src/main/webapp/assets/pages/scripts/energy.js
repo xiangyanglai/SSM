@@ -1,93 +1,956 @@
-jQuery(document).ready(function() {
-	var fxjl_bar = echarts.init(document.getElementById("fxjl_bar"));
-	var bgcz_bar = echarts.init(document.getElementById("bgcz_bar"));
-	var ktnh_bar = echarts.init(document.getElementById("ktnh_bar"));
-	var qtnh_bar = echarts.init(document.getElementById("qtnh_bar"));
+var ChartsAmcharts = function() {
 
-	var option = {
-		tooltip: {
-			trigger: "axis"
+	var configData = {
+		"type": "serial",
+		"theme": "light",
+
+		"fontFamily": 'Open Sans',
+		"color":    '#888888',
+
+		"legend": {
+			"equalWidths": false,
+			"useGraphSettings": true,
+			"valueAlign": "left",
+			"valueWidth": 120
 		},
-		legend: {
-			selected: {
-				"房间A": true
+		"dataProvider": [{
+			"date": "2012-01-01",
+			"distance": 227,
+			"townName": "New York",
+			"townName2": "New York",
+			"townSize": 25,
+			"latitude": 40.71,
+			"duration": 408
+		}, {
+			"date": "2012-01-02",
+			"distance": 371,
+			"townName": "Washington",
+			"townSize": 14,
+			"latitude": 38.89,
+			"duration": 482
+		}, {
+			"date": "2012-01-03",
+			"distance": 433,
+			"townName": "Wilmington",
+			"townSize": 6,
+			"latitude": 34.22,
+			"duration": 562
+		}, {
+			"date": "2012-01-04",
+			"distance": 345,
+			"townName": "Jacksonville",
+			"townSize": 7,
+			"latitude": 30.35,
+			"duration": 379
+		}, {
+			"date": "2012-01-05",
+			"distance": 480,
+			"townName": "Miami",
+			"townName2": "Miami",
+			"townSize": 10,
+			"latitude": 25.83,
+			"duration": 501
+		}, {
+			"date": "2012-01-06",
+			"distance": 386,
+			"townName": "Tallahassee",
+			"townSize": 7,
+			"latitude": 30.46,
+			"duration": 443
+		}, {
+			"date": "2012-01-07",
+			"distance": 348,
+			"townName": "New Orleans",
+			"townSize": 10,
+			"latitude": 29.94,
+			"duration": 405
+		}, {
+			"date": "2012-01-08",
+			"distance": 238,
+			"townName": "Houston",
+			"townName2": "Houston",
+			"townSize": 16,
+			"latitude": 29.76,
+			"duration": 309
+		}, {
+			"date": "2012-01-09",
+			"distance": 218,
+			"townName": "Dalas",
+			"townSize": 17,
+			"latitude": 32.8,
+			"duration": 287
+		}, {
+			"date": "2012-01-10",
+			"distance": 349,
+			"townName": "Oklahoma City",
+			"townSize": 11,
+			"latitude": 35.49,
+			"duration": 485
+		}, {
+			"date": "2012-01-11",
+			"distance": 603,
+			"townName": "Kansas City",
+			"townSize": 10,
+			"latitude": 39.1,
+			"duration": 890
+		}, {
+			"date": "2012-01-12",
+			"distance": 534,
+			"townName": "Denver",
+			"townName2": "Denver",
+			"townSize": 18,
+			"latitude": 39.74,
+			"duration": 810
+		}, {
+			"date": "2012-01-13",
+			"townName": "Salt Lake City",
+			"townSize": 12,
+			"distance": 425,
+			"duration": 670,
+			"latitude": 40.75,
+			"dashLength": 8,
+			"alpha": 0.4
+		}, {
+			"date": "2012-01-14",
+			"latitude": 36.1,
+			"duration": 470,
+			"townName": "Las Vegas",
+			"townName2": "Las Vegas"
+		}, {
+			"date": "2012-01-15"
+		}, {
+			"date": "2012-01-16"
+		}, {
+			"date": "2012-01-17"
+		}, {
+			"date": "2012-01-18"
+		}, {
+			"date": "2012-01-19"
+		}],
+		"valueAxes": [{
+			"id": "distanceAxis",
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"position": "left",
+			"title": "distance"
+		}, {
+			"id": "latitudeAxis",
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"labelsEnabled": false,
+			"position": "right"
+		}, {
+			"id": "durationAxis",
+			"duration": "mm",
+			"durationUnits": {
+				"hh": "h ",
+				"mm": "min"
 			},
-			data: ["房间A", "房间B", "房间C", "房间D"]
-		},
-		toolbox: {
-			show: !0,
-			feature: {
-				restore: {
-					show: !0
-				},
-				saveAsImage: {
-					show: !0
-				}
-			}
-		},
-		calculable: !0,
-		xAxis: [{
-			type: "category",
-			data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"inside": true,
+			"position": "right",
+			"title": "duration"
 		}],
-		yAxis: [{
-			type: "value",
-			splitArea: {
-				show: !0
-			}
-		}],
-		series: [{
-			name: "房间A",
-			type: "bar",
-			data: [2, 4.9, 7, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20, 6.4, 3.3]
+		"graphs": [{
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间A",
+			"type": "column",
+			"valueField": "distance",
+			"valueAxis": "distanceAxis"
 		}, {
-			name: "房间B",
-			type: "bar",
-			data: [2, 4.9, 7, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20, 6.4, 3.3]
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间B",
+			"type": "column",
+			"valueField": "latitude",
+			"valueAxis": "latitudeAxis"
 		}, {
-			name: "房间C",
-			type: "bar",
-			data: [2, 4.9, 7, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20, 6.4, 3.3]
-		}, {
-			name: "房间D",
-			type: "bar",
-			data: [2.6, 5.9, 9, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6, 2.3]
-		}]
-	};
-	fxjl_bar.setOption(option);
-	bgcz_bar.setOption(option);
-	ktnh_bar.setOption(option);
-	qtnh_bar.setOption(option);
 
-	function changeState(handler, option, mySelectSeries, state) {
-		option.legend.selected[mySelectSeries] = state;
-		handler.setOption(option, true);
-		handler.restore();
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间C",
+			"type": "column",
+			"valueField": "duration",
+			"valueAxis": "durationAxis"
+		}],
+		"chartCursor": {
+			"categoryBalloonDateFormat": "DD",
+			"cursorAlpha": 0.1,
+			"cursorColor": "#000000",
+			"fullWidth": true,
+			"valueBalloonsEnabled": false,
+			"zoomable": false
+		},
+		"dataDateFormat": "YYYY-MM-DD",
+		"categoryField": "date",
+		"categoryAxis": {
+			"dateFormats": [{
+				"period": "DD",
+				"format": "DD"
+			}, {
+				"period": "WW",
+				"format": "MMM DD"
+			}, {
+				"period": "MM",
+				"format": "MMM"
+			}, {
+				"period": "YYYY",
+				"format": "YYYY"
+			}],
+			"parseDates": true,
+			"autoGridCount": false,
+			"axisColor": "#555555",
+			"gridAlpha": 0.1,
+			"gridColor": "#FFFFFF",
+			"gridCount": 50
+		},
+		"exportConfig": {
+			"menuBottom": "20px",
+			"menuRight": "22px",
+			"menuItems": [{
+				"icon": App.getGlobalPluginsPath() + "amcharts/amcharts/images/export.png",
+				"format": 'png'
+			}]
+		}
+	};
+
+	var configData2 = {
+		"type": "serial",
+		"theme": "light",
+
+		"fontFamily": 'Open Sans',
+		"color":    '#888888',
+
+		"legend": {
+			"equalWidths": false,
+			"useGraphSettings": true,
+			"valueAlign": "left",
+			"valueWidth": 120
+		},
+		"dataProvider": [{
+			"date": "2012-01-01",
+			"distance": 227,
+			"townName": "New York",
+			"townName2": "New York",
+			"townSize": 25,
+			"latitude": 40.71,
+			"duration": 408
+		}, {
+			"date": "2012-01-02",
+			"distance": 371,
+			"townName": "Washington",
+			"townSize": 14,
+			"latitude": 38.89,
+			"duration": 482
+		}, {
+			"date": "2012-01-03",
+			"distance": 433,
+			"townName": "Wilmington",
+			"townSize": 6,
+			"latitude": 34.22,
+			"duration": 562
+		}, {
+			"date": "2012-01-04",
+			"distance": 345,
+			"townName": "Jacksonville",
+			"townSize": 7,
+			"latitude": 30.35,
+			"duration": 379
+		}, {
+			"date": "2012-01-05",
+			"distance": 480,
+			"townName": "Miami",
+			"townName2": "Miami",
+			"townSize": 10,
+			"latitude": 25.83,
+			"duration": 501
+		}, {
+			"date": "2012-01-06",
+			"distance": 386,
+			"townName": "Tallahassee",
+			"townSize": 7,
+			"latitude": 30.46,
+			"duration": 443
+		}, {
+			"date": "2012-01-07",
+			"distance": 348,
+			"townName": "New Orleans",
+			"townSize": 10,
+			"latitude": 29.94,
+			"duration": 405
+		}, {
+			"date": "2012-01-08",
+			"distance": 238,
+			"townName": "Houston",
+			"townName2": "Houston",
+			"townSize": 16,
+			"latitude": 29.76,
+			"duration": 309
+		}, {
+			"date": "2012-01-09",
+			"distance": 218,
+			"townName": "Dalas",
+			"townSize": 17,
+			"latitude": 32.8,
+			"duration": 287
+		}, {
+			"date": "2012-01-10",
+			"distance": 349,
+			"townName": "Oklahoma City",
+			"townSize": 11,
+			"latitude": 35.49,
+			"duration": 485
+		}, {
+			"date": "2012-01-11",
+			"distance": 603,
+			"townName": "Kansas City",
+			"townSize": 10,
+			"latitude": 39.1,
+			"duration": 890
+		}, {
+			"date": "2012-01-12",
+			"distance": 534,
+			"townName": "Denver",
+			"townName2": "Denver",
+			"townSize": 18,
+			"latitude": 39.74,
+			"duration": 810
+		}, {
+			"date": "2012-01-13",
+			"townName": "Salt Lake City",
+			"townSize": 12,
+			"distance": 425,
+			"duration": 670,
+			"latitude": 40.75,
+			"dashLength": 8,
+			"alpha": 0.4
+		}, {
+			"date": "2012-01-14",
+			"latitude": 36.1,
+			"duration": 470,
+			"townName": "Las Vegas",
+			"townName2": "Las Vegas"
+		}, {
+			"date": "2012-01-15"
+		}, {
+			"date": "2012-01-16"
+		}, {
+			"date": "2012-01-17"
+		}, {
+			"date": "2012-01-18"
+		}, {
+			"date": "2012-01-19"
+		}],
+		"valueAxes": [{
+			"id": "distanceAxis",
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"position": "left",
+			"title": "distance"
+		}, {
+			"id": "latitudeAxis",
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"labelsEnabled": false,
+			"position": "right"
+		}, {
+			"id": "durationAxis",
+			"duration": "mm",
+			"durationUnits": {
+				"hh": "h ",
+				"mm": "min"
+			},
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"inside": true,
+			"position": "right",
+			"title": "duration"
+		}],
+		"graphs": [{
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间A",
+			"type": "column",
+			"valueField": "distance",
+			"valueAxis": "distanceAxis"
+		}, {
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间B",
+			"type": "column",
+			"valueField": "latitude",
+			"valueAxis": "latitudeAxis"
+		}, {
+
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间C",
+			"type": "column",
+			"valueField": "duration",
+			"valueAxis": "durationAxis"
+		}],
+		"chartCursor": {
+			"categoryBalloonDateFormat": "DD",
+			"cursorAlpha": 0.1,
+			"cursorColor": "#000000",
+			"fullWidth": true,
+			"valueBalloonsEnabled": false,
+			"zoomable": false
+		},
+		"dataDateFormat": "YYYY-MM-DD",
+		"categoryField": "date",
+		"categoryAxis": {
+			"dateFormats": [{
+				"period": "DD",
+				"format": "DD"
+			}, {
+				"period": "WW",
+				"format": "MMM DD"
+			}, {
+				"period": "MM",
+				"format": "MMM"
+			}, {
+				"period": "YYYY",
+				"format": "YYYY"
+			}],
+			"parseDates": true,
+			"autoGridCount": false,
+			"axisColor": "#555555",
+			"gridAlpha": 0.1,
+			"gridColor": "#FFFFFF",
+			"gridCount": 50
+		},
+		"exportConfig": {
+			"menuBottom": "20px",
+			"menuRight": "22px",
+			"menuItems": [{
+				"icon": App.getGlobalPluginsPath() + "amcharts/amcharts/images/export.png",
+				"format": 'png'
+			}]
+		}
+	};
+
+
+	var configData3 = {
+		"type": "serial",
+		"theme": "light",
+
+		"fontFamily": 'Open Sans',
+		"color":    '#888888',
+
+		"legend": {
+			"equalWidths": false,
+			"useGraphSettings": true,
+			"valueAlign": "left",
+			"valueWidth": 120
+		},
+		"dataProvider": [{
+			"date": "2012-01-01",
+			"distance": 227,
+			"townName": "New York",
+			"townName2": "New York",
+			"townSize": 25,
+			"latitude": 40.71,
+			"duration": 408
+		}, {
+			"date": "2012-01-02",
+			"distance": 371,
+			"townName": "Washington",
+			"townSize": 14,
+			"latitude": 38.89,
+			"duration": 482
+		}, {
+			"date": "2012-01-03",
+			"distance": 433,
+			"townName": "Wilmington",
+			"townSize": 6,
+			"latitude": 34.22,
+			"duration": 562
+		}, {
+			"date": "2012-01-04",
+			"distance": 345,
+			"townName": "Jacksonville",
+			"townSize": 7,
+			"latitude": 30.35,
+			"duration": 379
+		}, {
+			"date": "2012-01-05",
+			"distance": 480,
+			"townName": "Miami",
+			"townName2": "Miami",
+			"townSize": 10,
+			"latitude": 25.83,
+			"duration": 501
+		}, {
+			"date": "2012-01-06",
+			"distance": 386,
+			"townName": "Tallahassee",
+			"townSize": 7,
+			"latitude": 30.46,
+			"duration": 443
+		}, {
+			"date": "2012-01-07",
+			"distance": 348,
+			"townName": "New Orleans",
+			"townSize": 10,
+			"latitude": 29.94,
+			"duration": 405
+		}, {
+			"date": "2012-01-08",
+			"distance": 238,
+			"townName": "Houston",
+			"townName2": "Houston",
+			"townSize": 16,
+			"latitude": 29.76,
+			"duration": 309
+		}, {
+			"date": "2012-01-09",
+			"distance": 218,
+			"townName": "Dalas",
+			"townSize": 17,
+			"latitude": 32.8,
+			"duration": 287
+		}, {
+			"date": "2012-01-10",
+			"distance": 349,
+			"townName": "Oklahoma City",
+			"townSize": 11,
+			"latitude": 35.49,
+			"duration": 485
+		}, {
+			"date": "2012-01-11",
+			"distance": 603,
+			"townName": "Kansas City",
+			"townSize": 10,
+			"latitude": 39.1,
+			"duration": 890
+		}, {
+			"date": "2012-01-12",
+			"distance": 534,
+			"townName": "Denver",
+			"townName2": "Denver",
+			"townSize": 18,
+			"latitude": 39.74,
+			"duration": 810
+		}, {
+			"date": "2012-01-13",
+			"townName": "Salt Lake City",
+			"townSize": 12,
+			"distance": 425,
+			"duration": 670,
+			"latitude": 40.75,
+			"dashLength": 8,
+			"alpha": 0.4
+		}, {
+			"date": "2012-01-14",
+			"latitude": 36.1,
+			"duration": 470,
+			"townName": "Las Vegas",
+			"townName2": "Las Vegas"
+		}, {
+			"date": "2012-01-15"
+		}, {
+			"date": "2012-01-16"
+		}, {
+			"date": "2012-01-17"
+		}, {
+			"date": "2012-01-18"
+		}, {
+			"date": "2012-01-19"
+		}],
+		"valueAxes": [{
+			"id": "distanceAxis",
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"position": "left",
+			"title": "distance"
+		}, {
+			"id": "latitudeAxis",
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"labelsEnabled": false,
+			"position": "right"
+		}, {
+			"id": "durationAxis",
+			"duration": "mm",
+			"durationUnits": {
+				"hh": "h ",
+				"mm": "min"
+			},
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"inside": true,
+			"position": "right",
+			"title": "duration"
+		}],
+		"graphs": [{
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间A",
+			"type": "column",
+			"valueField": "distance",
+			"valueAxis": "distanceAxis"
+		}, {
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间B",
+			"type": "column",
+			"valueField": "latitude",
+			"valueAxis": "latitudeAxis"
+		}, {
+
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间C",
+			"type": "column",
+			"valueField": "duration",
+			"valueAxis": "durationAxis"
+		}],
+		"chartCursor": {
+			"categoryBalloonDateFormat": "DD",
+			"cursorAlpha": 0.1,
+			"cursorColor": "#000000",
+			"fullWidth": true,
+			"valueBalloonsEnabled": false,
+			"zoomable": false
+		},
+		"dataDateFormat": "YYYY-MM-DD",
+		"categoryField": "date",
+		"categoryAxis": {
+			"dateFormats": [{
+				"period": "DD",
+				"format": "DD"
+			}, {
+				"period": "WW",
+				"format": "MMM DD"
+			}, {
+				"period": "MM",
+				"format": "MMM"
+			}, {
+				"period": "YYYY",
+				"format": "YYYY"
+			}],
+			"parseDates": true,
+			"autoGridCount": false,
+			"axisColor": "#555555",
+			"gridAlpha": 0.1,
+			"gridColor": "#FFFFFF",
+			"gridCount": 50
+		},
+		"exportConfig": {
+			"menuBottom": "20px",
+			"menuRight": "22px",
+			"menuItems": [{
+				"icon": App.getGlobalPluginsPath() + "amcharts/amcharts/images/export.png",
+				"format": 'png'
+			}]
+		}
+	};
+
+	var configData6 = {
+		"type": "serial",
+		"theme": "light",
+
+		"fontFamily": 'Open Sans',
+		"color":    '#888888',
+
+		"legend": {
+			"equalWidths": false,
+			"useGraphSettings": true,
+			"valueAlign": "left",
+			"valueWidth": 120
+		},
+		"dataProvider": [{
+			"date": "2012-01-01",
+			"distance": 227,
+			"townName": "New York",
+			"townName2": "New York",
+			"townSize": 25,
+			"latitude": 40.71,
+			"duration": 408
+		}, {
+			"date": "2012-01-02",
+			"distance": 371,
+			"townName": "Washington",
+			"townSize": 14,
+			"latitude": 38.89,
+			"duration": 482
+		}, {
+			"date": "2012-01-03",
+			"distance": 433,
+			"townName": "Wilmington",
+			"townSize": 6,
+			"latitude": 34.22,
+			"duration": 562
+		}, {
+			"date": "2012-01-04",
+			"distance": 345,
+			"townName": "Jacksonville",
+			"townSize": 7,
+			"latitude": 30.35,
+			"duration": 379
+		}, {
+			"date": "2012-01-05",
+			"distance": 480,
+			"townName": "Miami",
+			"townName2": "Miami",
+			"townSize": 10,
+			"latitude": 25.83,
+			"duration": 501
+		}, {
+			"date": "2012-01-06",
+			"distance": 386,
+			"townName": "Tallahassee",
+			"townSize": 7,
+			"latitude": 30.46,
+			"duration": 443
+		}, {
+			"date": "2012-01-07",
+			"distance": 348,
+			"townName": "New Orleans",
+			"townSize": 10,
+			"latitude": 29.94,
+			"duration": 405
+		}, {
+			"date": "2012-01-08",
+			"distance": 238,
+			"townName": "Houston",
+			"townName2": "Houston",
+			"townSize": 16,
+			"latitude": 29.76,
+			"duration": 309
+		}, {
+			"date": "2012-01-09",
+			"distance": 218,
+			"townName": "Dalas",
+			"townSize": 17,
+			"latitude": 32.8,
+			"duration": 287
+		}, {
+			"date": "2012-01-10",
+			"distance": 349,
+			"townName": "Oklahoma City",
+			"townSize": 11,
+			"latitude": 35.49,
+			"duration": 485
+		}, {
+			"date": "2012-01-11",
+			"distance": 603,
+			"townName": "Kansas City",
+			"townSize": 10,
+			"latitude": 39.1,
+			"duration": 890
+		}, {
+			"date": "2012-01-12",
+			"distance": 534,
+			"townName": "Denver",
+			"townName2": "Denver",
+			"townSize": 18,
+			"latitude": 39.74,
+			"duration": 810
+		}, {
+			"date": "2012-01-13",
+			"townName": "Salt Lake City",
+			"townSize": 12,
+			"distance": 425,
+			"duration": 670,
+			"latitude": 40.75,
+			"dashLength": 8,
+			"alpha": 0.4
+		}, {
+			"date": "2012-01-14",
+			"latitude": 36.1,
+			"duration": 470,
+			"townName": "Las Vegas",
+			"townName2": "Las Vegas"
+		}, {
+			"date": "2012-01-15"
+		}, {
+			"date": "2012-01-16"
+		}, {
+			"date": "2012-01-17"
+		}, {
+			"date": "2012-01-18"
+		}, {
+			"date": "2012-01-19"
+		}],
+		"valueAxes": [{
+			"id": "distanceAxis",
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"position": "left",
+			"title": "distance"
+		}, {
+			"id": "latitudeAxis",
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"labelsEnabled": false,
+			"position": "right"
+		}, {
+			"id": "durationAxis",
+			"duration": "mm",
+			"durationUnits": {
+				"hh": "h ",
+				"mm": "min"
+			},
+			"axisAlpha": 0,
+			"gridAlpha": 0,
+			"inside": true,
+			"position": "right",
+			"title": "duration"
+		}],
+		"graphs": [{
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间A",
+			"type": "column",
+			"valueField": "distance",
+			"valueAxis": "distanceAxis"
+		}, {
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间B",
+			"type": "column",
+			"valueField": "latitude",
+			"valueAxis": "latitudeAxis"
+		}, {
+
+			"alphaField": "alpha",
+			"balloonText": "[[value]] miles",
+			"dashLengthField": "dashLength",
+			"fillAlphas": 0.7,
+			"legendValueText": "[[value]] mi",
+			"title": "房间C",
+			"type": "column",
+			"valueField": "duration",
+			"valueAxis": "durationAxis"
+		}],
+		"chartCursor": {
+			"categoryBalloonDateFormat": "DD",
+			"cursorAlpha": 0.1,
+			"cursorColor": "#000000",
+			"fullWidth": true,
+			"valueBalloonsEnabled": false,
+			"zoomable": false
+		},
+		"dataDateFormat": "YYYY-MM-DD",
+		"categoryField": "date",
+		"categoryAxis": {
+			"dateFormats": [{
+				"period": "DD",
+				"format": "DD"
+			}, {
+				"period": "WW",
+				"format": "MMM DD"
+			}, {
+				"period": "MM",
+				"format": "MMM"
+			}, {
+				"period": "YYYY",
+				"format": "YYYY"
+			}],
+			"parseDates": true,
+			"autoGridCount": false,
+			"axisColor": "#555555",
+			"gridAlpha": 0.1,
+			"gridColor": "#FFFFFF",
+			"gridCount": 50
+		},
+		"exportConfig": {
+			"menuBottom": "20px",
+			"menuRight": "22px",
+			"menuItems": [{
+				"icon": App.getGlobalPluginsPath() + "amcharts/amcharts/images/export.png",
+				"format": 'png'
+			}]
+		}
+	};
+
+	var initChartSample1 = function() {
+		var chart = AmCharts.makeChart("chart_1", configData
+		);
+
+		$('#chart_1').closest('.portlet').find('.fullscreen').click(function() {
+			chart.invalidateSize();
+		});
 	}
 
-	$('.make-switch').on('switchChange.bootstrapSwitch', function(event, state) {
-		var owner = $(this).attr('owner');
-		var mySelectSeries = $(this).parent().parent().prev().text();
-		var myOption;
-		switch (owner) {
-			case 'fxjl_bar':
-				myOption = fxjl_bar.getOption();
-				changeState(fxjl_bar, myOption, mySelectSeries, state);
-				break;
-			case 'bgcz_bar':
-				myOption = bgcz_bar.getOption();
-				changeState(bgcz_bar, myOption, mySelectSeries, state);
-				break;
-			case 'ktnh_bar':
-				myOption = bgcz_bar.getOption();
-				changeState(bgcz_bar, myOption, mySelectSeries, state);
-				break;
-			case 'qtnh_bar':
-				myOption = qtnh_bar.getOption();
-				changeState(qtnh_bar, myOption, mySelectSeries, state);
-				break;
+	var initChartSample2 = function() {
+		var chart = AmCharts.makeChart("chart_2", configData2
+		);
+
+		$('#chart_2').closest('.portlet').find('.fullscreen').click(function() {
+			chart.invalidateSize();
+		});
+	}
+
+	var initChartSample3 = function() {
+		var chart = AmCharts.makeChart("chart_3", configData3
+		);
+
+		$('#chart_3').closest('.portlet').find('.fullscreen').click(function() {
+			chart.invalidateSize();
+		});
+	}
+
+	var initChartSample6 = function() {
+		var chart = AmCharts.makeChart("chart_6", configData6
+		);
+
+		$('#chart_6').closest('.portlet').find('.fullscreen').click(function() {
+			chart.invalidateSize();
+		});
+	}
+
+	return {
+		//main function to initiate the module
+
+		init: function() {
+			initChartSample1();
+			initChartSample2();
+			initChartSample3();
+			initChartSample6();
 		}
 
-	});
+	};
 
+}();
+
+jQuery(document).ready(function() {
+	ChartsAmcharts.init();
 });

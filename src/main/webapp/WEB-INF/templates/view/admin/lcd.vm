@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <div id="echarts_bar4" style="height:500px;">
+                <div id="chart_1" style="height:500px;">
                 </div>
             </div>
         </div>
@@ -43,15 +43,35 @@
                     <!-- 轮播（Carousel）项目 -->
                     <div class="carousel">
                         <div class="item current">
-                            <div id="echarts_bar" style="height:500px;"></div>
+                            <div id="chart_2" style="height:500px;"></div>
                             <div class="carousel-caption">第一天</div>
                         </div>
                         <div class="item">
-                            <div id="echarts_bar2" style="height:500px;"></div>
+                            <div id="chart_3" style="height:500px;"></div>
                             <div class="carousel-caption">第二天</div>
                         </div>
                         <div class="item">
-                            <div id="echarts_bar3" style="height:500px;"></div>
+                            <div id="chart_4" style="height:500px;"></div>
+                            <div class="carousel-caption">第三天</div>
+                        </div>
+                         <div class="item">
+                            <div id="chart_5" style="height:500px;"></div>
+                            <div class="carousel-caption">第三天</div>
+                        </div>
+                         <div class="item">
+                            <div id="chart_6" style="height:500px;"></div>
+                            <div class="carousel-caption">第三天</div>
+                        </div>
+                         <div class="item">
+                            <div id="chart_7" style="height:500px;"></div>
+                            <div class="carousel-caption">第三天</div>
+                        </div>
+                         <div class="item">
+                            <div id="chart_8" style="height:500px;"></div>
+                            <div class="carousel-caption">第三天</div>
+                        </div>
+                         <div class="item">
+                            <div id="chart_9" style="height:500px;"></div>
                             <div class="carousel-caption">第三天</div>
                         </div>
                     </div>
@@ -70,7 +90,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <div id="echarts_bar5" style="height:500px;">
+                <div id="chart_10" style="height:500px;">
                 </div>
             </div>
         </div>
@@ -88,16 +108,12 @@
                     <!-- 轮播（Carousel）项目 -->
                     <div class="carousel">
                         <div class="item current">
-                            <div id="echarts_bar6" style="height:500px;"></div>
+                            <div id="chart_11" style="height:500px;"></div>
                             <div class="carousel-caption">第一天</div>
                         </div>
                         <div class="item">
-                            <div id="echarts_bar2" style="height:500px;"></div>
+                            <div id="chart_12" style="height:500px;"></div>
                             <div class="carousel-caption">第二天</div>
-                        </div>
-                        <div class="item">
-                            <div id="echarts_bar3" style="height:500px;"></div>
-                            <div class="carousel-caption">第三天</div>
                         </div>
                     </div>
                 </div>
@@ -105,8 +121,21 @@
         </div>
     </div>
 </div>
-<script src="/assets/global/plugins/echarts/echarts-all.js" type="text/javascript"></script>
-<script src="/assets/pages/scripts/charts-echarts.min.js" type="text/javascript"></script>
+
+ <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="/assets/global/plugins/amcharts/amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/amcharts/amcharts/serial.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/amcharts/amcharts/pie.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/amcharts/amcharts/radar.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/amcharts/amcharts/themes/light.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/amcharts/amcharts/themes/patterns.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/amcharts/amcharts/themes/chalk.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/amcharts/ammap/ammap.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/amcharts/ammap/maps/js/worldLow.js" type="text/javascript"></script>
+        <script src="/assets/global/plugins/amcharts/amstockcharts/amstock.js" type="text/javascript"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+
+<script src="/assets/pages/scripts/charts-amcharts.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/assets/pages/scripts/mySlide.js"></script>
 <!-- END THEME LAYOUT SCRIPTS -->
 <script type="text/javascript">
