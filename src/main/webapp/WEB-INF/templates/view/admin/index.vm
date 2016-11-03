@@ -1,4 +1,5 @@
 #set($title="建筑环境能耗智能管理系统")
+#set($treeIndex="0")
 <style type="text/css">
     .info_panel{
         background: gray;
