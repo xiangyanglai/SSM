@@ -7,11 +7,16 @@
 <link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
 <link href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
 <link href="/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    .myline{
+        margin-bottom: 6px;
+    }
+</style>
 
 <div class="row" style="margin-bottom:16px">
   <div class="col-md-12 col-sm-12 col-xs-12">
-      <div class="col-md-2 col-sm-3 col-xs-12">分项查询：</div>
-      <div class="col-md-3 col-sm-4 col-xs-12">
+      <div class="col-md-2 col-sm-3 col-xs-12 myline">分项查询：</div>
+      <div class="col-md-3 col-sm-4 col-xs-12 myline">
           <select class="form-control">
             <option selected="selected">一级分类</option> 
             <option>Option 1</option>
@@ -22,7 +27,7 @@
           </select>
       </div>
         
-      <div class="col-md-3 col-sm-4 col-xs-12">
+      <div class="col-md-3 col-sm-4 col-xs-12 myline">
           <select class="form-control">
             <option selected="selected">二级分类</option> 
             <option>Option 1</option>
@@ -33,7 +38,7 @@
           </select>
       </div>
 
-      <div class="col-md-2 col-sm-2 col-xs-12" style="text-align:center">
+      <div class="col-md-2 col-sm-2 col-xs-12 myline" style="text-align:center">
           <button type="button" class="btn green">
               <span>确认</span>
           </button>

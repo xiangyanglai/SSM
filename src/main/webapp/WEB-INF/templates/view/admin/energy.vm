@@ -5,11 +5,11 @@
 
 <div class="row" style="margin-bottom:16px">
   <div class="col-md-12 col-sm-12 col-xs-12">
-      <div class="col-md-2 col-sm-3 col-xs-12">查询日期：</div>
-      <div class="col-md-3 col-sm-4 col-xs-12">
-          <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="">
+      <div class="col-md-2 col-sm-3 col-xs-4">查询日期:</div>
+      <div class="col-md-3 col-sm-4 col-xs-5">
+          <input class="form-control form-control-inline mydate" size="16" type="text" value="">
       </div>
-      <div class="col-md-2 col-sm-2 col-xs-12" style="text-align:center">
+      <div class="col-md-2 col-sm-2 col-xs-3" style="text-align:center">
           <button type="button" class="btn green">
               <span>确认</span>
           </button>

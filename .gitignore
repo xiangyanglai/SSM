@@ -5,3 +5,4 @@ target
 /BuildEnergy.iml
 /.idea
 /.tern-project
+/src/test/java/test/batis/QuickSort.java
