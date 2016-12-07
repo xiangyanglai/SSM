@@ -1,11 +1,12 @@
 package com.cn.tju.service;
 
 import com.cn.tju.pojo.User;
+import com.cn.tju.util.ResultDO;
+
+import java.util.List;
 
 public interface UserService {  	
 
-	User user(User user);
-	
 	User selectLogin(String username);
 
 	User getUserById(int i);
@@ -14,8 +15,12 @@ public interface UserService {
 	
 	User getUserByusername(String username);
 	
-	int inster(User user);
-	
+
 	Boolean getLoginUser(User user);
+
+	public ResultDO<List<User>> selectAllUserList();
+
+	public ResultDO<Boolean> insertNewUser(User newUser);
+
 
 }  

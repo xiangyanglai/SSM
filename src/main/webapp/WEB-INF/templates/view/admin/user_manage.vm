@@ -1,6 +1,8 @@
 #set($title="用户管理")
+#set($treeIndex="3")
 <link href="/assets/global/plugins/datatables/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="/assets/global/plugins/datatables/css/dataTables.responsive.css" rel="stylesheet" type="text/css" />
+<link href="/assets/custom/plugins/sweet-alert/sweet-alert.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
     .operation{
         text-align: center;
@@ -9,18 +11,56 @@
         margin-bottom: 16px;
     }
 </style>
-<div class="myAddOperation">
-    <button type="button" class="btn btn-primary" id="myAddButton" data-toggle="modal" data-target="#myModal">添加用户</button>
-</div>
-<div class="portlet box yellow">
+
+<div class="portlet light bordered">
     <div class="portlet-title">
         <div class="caption">
-            <i class="fa fa-cogs"></i>用户管理 </div>
+            <i class="fa fa-cogs"></i>电表管理列表 </div>
         <div class="tools">
-            <a href="javascript:;" class="collapse"> </a>
-            <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-            <a href="javascript:;" class="reload"> </a>
-            <a href="javascript:;" class="remove"> </a>
+            <button type="button" class="btn btn-primary" id="myAddButton" data-toggle="modal" data-target="#myAmmeterModal">+新增电表</button>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" id="ammeterSettingTable">
+                <thead>
+                <tr>
+                    <th>电表编号</th>
+                    <th>电表名称</th>
+                    <th>电表IP</th>
+                    <th>电表端口</th>
+                    <th>电表从站</th>
+                    <th>有功功率起始地址</th>
+                    <th>总能耗起始地址</th>
+                </tr>
+                </thead>
+                <tbody>
+                    #if($!queryAmmeterSettingResult)
+                        #foreach($ammeterSetting in ${ammeterSettingList})
+                        <tr>
+                            <td>$!ammeterSetting.ammeterId </td>
+                            <td> $!ammeterSetting.ammeterName </td>
+                            <td> $!ammeterSetting.ammeterIp  </td>
+                            <td> $!ammeterSetting.ammeterPort  </td>
+                            <td> $!ammeterSetting.ammeterSlave  </td>
+                            <td> $!ammeterSetting.ammeterFirst  </td>
+                            <td> $!ammeterSetting.ammeterSecond  </td>
+                        </tr>
+                        #end
+                    #end
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-cogs"></i>用户管理列表 </div>
+        <div class="tools">
+            <button type="button" class="btn btn-primary" id="myAddButton" data-toggle="modal" data-target="#myModal">+新增用户</button>
         </div>
     </div>
     <div class="portlet-body">
@@ -30,67 +70,87 @@
                 <tr>
                     <th>ID</th>
                     <th>用户名</th>
-                    <th>姓名</th>
                     <th>手机</th>
                     <th>邮箱</th>
+                    <th>创建时间</th>
                     <th>状态</th>
-                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
+                    #if($!queryUserResult)
+                        #foreach($user in ${userList})
+                        <tr>
+                            <td>$!user.userId </td>
+                            <td> $!user.userName </td>
+                            <td> $!user.userPhone  </td>
+                            <td> $!user.userEmail  </td>
+                            <td> $!user.datetime  </td>
+                            <td>
+                                #if($user.userFlag == 1)
+                                    是
+                                #else
+                                    否
+                                #end
+                            </td>
+                        </tr>
+                        #end
+                    #end
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-cogs"></i>用户参数列表 </div>
+        <div class="tools">
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" id="example">
+                <tbody>
                 <tr>
-                    <td> 1 </td>
-                    <td> xiaohongli </td>
-                    <td> 李晓红 </td>
-                    <td> 18767672312</td>
-                    <td> xiaohongli@tju.edu.cn </td>
-                    <td> 启用 </td>
-                    <td class="operation">
-                        <div class="margin-bottom-5">
-                            <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
-                                <i class="fa fa-search">修改</i></button>
-                        </div>
-                        <button class="btn btn-sm red btn-outline filter-cancel">
-                            <i class="fa fa-times"></i> 删除</button>
-                    </td>
+                    <td> 城市邮编 </td>
+                    <td> <input type="text" name="" value="30072"/> </td>
+                    <td> (获取天气时使用) </td>
                 </tr>
                 <tr>
-                    <td> 2 </td>
-                    <td> 测试 </td>
-                    <td> 测试用户 </td>
-                    <td> 18723827232 </td>
-                    <td> test@tju.edu.cn </td>
-                    <td> 启用 </td>
-                    <td class="operation">
-                        <div class="margin-bottom-5">
-                            <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
-                                <i class="fa fa-search">修改</i></button>
-                        </div>
-                        <button class="btn btn-sm red btn-outline filter-cancel">
-                            <i class="fa fa-times"></i> 删除</button>
-                    </td>
+                    <td>1级电价</td>
+                    <td> <input type="text" name="" value="30"/> </td>
+                    <td> 度以下 </td>
+                    <td> <input type="text" name="" value="0.60"/>  </td>
+                    <td> 元/度 </td>
                 </tr>
                 <tr>
-                    <td> 3 </td>
-                    <td> 测试2 </td>
-                    <td> 测试用户2 </td>
-                    <td> 18723827232 </td>
-                    <td> test2@tju.edu.cn </td>
-                    <td> 启用 </td>
-                    <td class="operation">
-                        <div class="margin-bottom-5">
-                            <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
-                                <i class="fa fa-search">修改</i></button>
-                        </div>
-                        <button class="btn btn-sm red btn-outline filter-cancel">
-                            <i class="fa fa-times"></i> 删除</button>
-                    </td>
+                    <td>2级电价</td>
+                    <td> <input type="text" name="" value="60"/> </td>
+                    <td> 度以下 </td>
+                    <td> <input type="text" name="" value="0.80"/>  </td>
+                    <td> 元/度 </td>
+                </tr>
+                <tr>
+                    <td>3级电价</td>
+                    <td> <input type="text" name="" value="100"/> </td>
+                    <td> 度以下 </td>
+                    <td> <input type="text" name="" value="0.96"/>  </td>
+                    <td> 元/度 </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align:center"><button class="btn btn-primary">保存</button></td>
+                    <td style="text-align:center"><button class="btn btn-default">取消</button></td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -104,27 +164,25 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" id="myUserForm">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-3 control-label">用户名</label>
                             <div class="col-md-9">
-                                <div class="input-group">
-                                    <input type="password" class="form-control" placeholder="用户名不能为空">
-                                    <span class="input-group-addon">
-                                                           <i class="fa fa-user"></i>
-                                                       </span>
+                                <div class="input-group formControls col-md-">
+                                    <input type="text" name="userName" datatype="*6-20"  class="form-control" placeholder="用户名不能为空" errormsg="用户名至少6个字符,最多18个字符！">
+                                </div>
+                                <div class="col-md-4">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">真实姓名</label>
+                            <label class="col-md-3 control-label">电话</label>
                             <div class="col-md-9">
-                                <div class="input-group">
-                                    <input type="password" class="form-control" placeholder="真实姓名不能为空">
-                                    <span class="input-group-addon">
-                                                           <i class="fa fa-user"></i>
-                                                       </span>
+                                <div class="input-group formControls">
+                                    <input type="text" name="userPhone"  datatype="m" class="form-control" placeholder="电话" errormsg="电话格式不正确！">
+                                </div>
+                                <div class="col-md-4">
                                 </div>
                             </div>
                         </div>
@@ -132,60 +190,248 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">邮箱</label>
                         <div class="col-md-9">
-                            <div class="input-group">
-                                <input type="email" class="form-control" placeholder="填写邮箱">
-                                <span class="input-group-addon">
-                                                            <i class="fa fa-envelope"></i>
-                                                        </span>
+                            <div class="input-group formControls">
+                                <input type="text" name="userEmail" class="form-control" datatype="e" placeholder="填写邮箱">
                             </div>
+                             <div class="col-md-4">
+                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">管理员</label>
+                        <div class="col-md-4">
+                            <div class="input-group formControls">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="userFlag" id="optionsRadios1" value="1" checked datatype="*">
+                                        是
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="userFlag" id="optionsRadios1" value="0" checked>
+                                        否
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">密码</label>
                         <div class="col-md-9">
-                            <div class="input-group">
-                                <input type="password" class="form-control" placeholder="Password">
-                                <span class="input-group-addon">
-                                                            <i class="fa fa-user"></i>
-                                                        </span>
+                            <div class="input-group formControls">
+                                <input type="password" id="password1" datatype="*6-20"  name="userPwd" class="form-control" placeholder="Password" errormsg="密码为6到20个字符！">
+                            </div>
+                            <div class="col-md-4">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">重复密码</label>
                         <div class="col-md-9">
-                            <div class="input-group">
-                                <input type="password" class="form-control" placeholder="Password">
-                                <span class="input-group-addon">
-                                                            <i class="fa fa-user"></i>
-                                                        </span>
+                            <div class="input-group formControls">
+                                <input type="password" recheck="userPwd" datatype="*6-20" id="password2" class="form-control" placeholder="Password" errormsg="两次密码输入不一致！">
+                            </div>
+                            <div class="col-md-4">
                             </div>
                         </div>
                     </div>
-                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="button" class="btn btn-primary">
-                    提交
-                </button>
+                  <input class="btn btn-primary radius" type="submit" id="mySubmitButton" value="提交"/>
+                  <input type="reset" name="reset" id="myUserResetButton" style="display: none;" />
             </div>
+            </form>
         </div><!-- /.modal-content -->
-    </div><!-- /.modal -->>
+    </div><!-- /.modal -->
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myAmmeterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    填写电表信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">电表编号</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" placeholder="电表编号不能为空">
+                                    <span class="input-group-addon">
+                           <i class="fa fa-user"></i>
+                         </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">电表名称</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" placeholder="电表名称不能为空">
+                                    <span class="input-group-addon">
+                           <i class="fa fa-user"></i>
+                         </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">电表端口</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="email" class="form-control" placeholder="电表端口">
+                                <span class="input-group-addon">
+                         <i class="fa fa-envelope"></i>
+                       </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">电表从站</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="password" class="form-control" placeholder="电表从站">
+                                <span class="input-group-addon">
+                         <i class="fa fa-user"></i>
+                       </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">有功功率起始地址</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="password" class="form-control" placeholder="有功功率起始地址">
+                                <span class="input-group-addon">
+                         <i class="fa fa-user"></i>
+                       </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">总能耗起始地址</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="password" class="form-control" placeholder="总能耗起始地址">
+                                <span class="input-group-addon">
+                         <i class="fa fa-user"></i>
+                       </span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                 
+                  <input class="btn btn-primary radius" type="submit" id="mySubmitButton" value="提交"/>
+            </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+#parse("layout/common.vm")
+#include("layout/footer.vm")
+#include("layout/corescript.vm")
+<script src="/assets/global/plugins/validform/5.3.2/Validform.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/datatables/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/datatables/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/assets/custom/plugins/sweet-alert/sweet-alert.js"></script>
+<script type="text/javascript">
+    $('#ammeterSettingTable').DataTable({
+        "oLanguage": {
+            "sSearch": "搜索",
+            "sLengthMenu": "每页显示 _MENU_ 条记录",
+            "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+            "sInfoEmpty": "没有数据",
+            "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "前一页",
+                "sNext": "后一页",
+                "sLast": "尾页"
+            },
+            "sZeroRecords": "没有检索到数据",
+            "sProcessing": "<img src='./loading.gif' />"
+        }
+    });
+
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a,
+                function() {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+        return o;
+    };
+
+    function saveUser() {
+        $("#mySubmitButton").addClass("disabled");
+        $.ajax({
+            url: "/admin/insertUser", //这个就是请求地址对应sAjaxSource
+            contentType: "application/json",
+            data: JSON.stringify($('#myUserForm').serializeObject()),
+            type: 'post',
+            dataType: 'json',
+            success: function (result) {
+                if(result.success)
+                {
+
+                    //隐藏对话框
+                    $("#myModal").modal("hide");
+                    //清除表单内容
+                    $("#myUserResetButton").trigger("click");
+                    swal({
+                      title: "成功！", 
+                        text: "添加人员.",
+                        type:"success" 
+                    }); 
+                }
+            },
+            error: function (msg) {
+                swal({
+                  title: "失败！", 
+                    text: "操作失败.",
+                    type:"error" 
+                }); 
+            }
+        });
+    }
+
+    $("#myUserForm").Validform({
+        tiptype:2,
+        ignoreHidden:false,
+        dragonfly:false,
+        tipSweep:false,
+        showAllError:false,
+        beforeSubmit:function(data){
+            saveUser();
+            return false;
+        }
+    });
 
 
-    <script type="text/javascript" language="javascript" class="init">
-
-        $(document).ready(function() {
-            $('#example').DataTable( {
-
-            } );
-        } );
+</script>
 
 
-    </script>
 
-
-    <script src="/assets/global/plugins/datatables/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/datatables/js/jquery.dataTables.min.js" type="text/javascript"></script>

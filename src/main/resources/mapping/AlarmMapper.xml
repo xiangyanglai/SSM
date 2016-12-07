@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.tju.IDao.AlarmMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.tju.pojo.Alarm" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="sensor_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="alarm_note" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="alarm_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sensor_id, alarm_note, alarm_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from alarm
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from alarm
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.tju.pojo.Alarm" >
+    insert into alarm (id, sensor_id, alarm_note, 
+      alarm_time)
+    values (#{id,jdbcType=INTEGER}, #{sensorId,jdbcType=VARCHAR}, #{alarmNote,jdbcType=VARCHAR}, 
+      #{alarmTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.tju.pojo.Alarm" >
+    insert into alarm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sensorId != null" >
+        sensor_id,
+      </if>
+      <if test="alarmNote != null" >
+        alarm_note,
+      </if>
+      <if test="alarmTime != null" >
+        alarm_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sensorId != null" >
+        #{sensorId,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmNote != null" >
+        #{alarmNote,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmTime != null" >
+        #{alarmTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.tju.pojo.Alarm" >
+    update alarm
+    <set >
+      <if test="sensorId != null" >
+        sensor_id = #{sensorId,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmNote != null" >
+        alarm_note = #{alarmNote,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmTime != null" >
+        alarm_time = #{alarmTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.tju.pojo.Alarm" >
+    update alarm
+    set sensor_id = #{sensorId,jdbcType=VARCHAR},
+      alarm_note = #{alarmNote,jdbcType=VARCHAR},
+      alarm_time = #{alarmTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--选取所有的alarm-->
+  <select id="selectAllAlarms" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM alarm
+  </select>
+
+  <!--选取所有的alarm总数-->
+  <select id="getTotalAlarmSize" parameterType="com.cn.tju.util.DataTablePageUtil" resultType="java.lang.Integer">
+    SELECT
+    count(*)
+    FROM alarm
+    <where>
+      <if test="conditionList!=null">
+        <foreach item="item" index="key" collection="conditionList" open="" separator="or" close="">
+          ${item} like CONCAT('%',#{searchData},'%')
+        </foreach>
+      </if>
+    </where>
+  </select>
+
+
+  <!--按照条件分页查询alarm日志,需要过滤的参数类型为Map-->
+  <select id="selectAlarmsByPageMap" parameterType="com.cn.tju.util.DataTablePageUtil" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from alarm
+    <where>
+      <if test="condition!=null">
+        <foreach item="item" index="key" collection="condition" open="" separator="or" close="">
+          ${key} like CONCAT('%',#{item},'%')
+        </foreach>
+      </if>
+    </where>
+    limit ${start},${length}
+  </select>
+
+
+  <!--按照条件分页查询alarm日志，需要过滤的参数类型为List-->
+  <select id="selectAlarmsByPage" parameterType="com.cn.tju.util.DataTablePageUtil" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from alarm
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        alarm_time &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        and alarm_time &lt;= #{endTime}
+      </if>
+      <if test="conditionList!=null">
+        <foreach item="item" index="key" collection="conditionList" open="and (" separator="or" close=")">
+          ${item} like CONCAT('%',#{searchData},'%')
+        </foreach>
+      </if>
+    </where>
+    limit ${start},${length}
+  </select>
+
+
+
+
+  <!--
+    item	循环体中的具体对象。支持属性的点路径访问，如item.age,item.info.details。 具体说明：在list和数组中是其中的对象，在map中是value。 该参数为必选。
+    collection	要做foreach的对象，作为入参时，List<?>对象默认用list代替作为键，数组对象有array代替作为键，Map对象用map代替作为键。 当然在作为入参时可以使用@Param("keyName")来设置键，设置keyName后，list,array,map将会失效。 除了入参这种情况外，还有一种作为参数对象的某个字段的时候。举个例子： 如果User有属性List ids。入参是User对象，那么这个collection = "ids" 如果User有属性Ids ids;其中Ids是个对象，Ids有个属性List id;入参是User对象，那么collection = "ids.id" 上面只是举例，具体collection等于什么，就看你想对那个元素做循环。 该参数为必选。
+    separator	元素之间的分隔符，例如在in()的时候，separator=","会自动在元素中间用“,“隔开，避免手动输入逗号导致sql错误，如in(1,2,)这样。该参数可选。
+    open	foreach代码的开始符号，一般是(和close=")"合用。常用在in(),values()时。该参数可选。
+    close	foreach代码的关闭符号，一般是)和open="("合用。常用在in(),values()时。该参数可选。
+    index	在list和数组中,index是元素的序号，在map中，index是元素的key，该参数可选。
+   -->
+
+
+
+  <!--按照符合查询条件的alarm总数-->
+  <select id="getAlarmSizeByPara" parameterType="com.cn.tju.util.DataTablePageUtil" resultType="java.lang.Integer">
+    select
+    count(*)
+    from alarm
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        alarm_time &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        and alarm_time &lt;= #{endTime}
+      </if>
+      <if test="conditionList!=null">
+        <foreach item="item" index="key" collection="conditionList" open="and (" separator="or" close=")">
+          ${item} like CONCAT('%',#{searchData},'%')
+        </foreach>
+      </if>
+    </where>
+  </select>
+
+
+  <select id="selectAlarmsByTime" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select
+    <include refid="Base_Column_List" />
+    from alarm
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        alarm_time &gt;= #{startTime}
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        and alarm_time &lt;= #{endTime}
+      </if>
+    </where>
+  </select>
+
+  <!--分页获取所有的alarms-->
+  <select id="selectAllAlarmsPerpage" parameterType="com.cn.tju.util.DataTablePageUtil" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from alarm
+    <where>
+      <if test="conditionList!=null">
+        <foreach item="item" index="key" collection="conditionList" open="" separator="or" close="">
+          ${item} like CONCAT('%',#{searchData},'%')
+        </foreach>
+      </if>
+    </where>
+    limit ${start},${length}
+  </select>
+
+
+
+</mapper>

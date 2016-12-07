@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--通过接口方式访问数据库-->
+
+<mapper namespace="com.cn.tju.IDao.PersonDao" >
+
+
+    <resultMap id="BaseResultMap" type="com.cn.tju.pojo.Person" >
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="VARCHAR" />
+        <result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="loadID" property="loadID" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        name, sex, idNumber, phone, email, address, loadID
+    </sql>
+
+
+    <select id="selectPersonByPage" parameterType="com.cn.tju.util.DataTablePageUtil" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from person
+        <where>
+          <if test="condition!=null">
+           <foreach item="item" index="key" collection="condition" open="" separator="or" close="">
+             ${key} like CONCAT('%',#{item},'%')
+           </foreach>
+          </if>
+        </where>
+        order by name limit ${start},${length}
+    </select>
+
+    <select id="selectPersonPageSize" parameterType="com.cn.tju.util.DataTablePageUtil" resultType="java.lang.Integer">
+        select
+        count(*)
+        from person
+        <where>
+            <if test="condition!=null">
+                <foreach item="item" index="key" collection="condition" open="" separator="or" close="">
+                    ${key} like CONCAT('%',#{item},'%')
+                </foreach>
+            </if>
+        </where>
+        order by name limit ${start},${length}
+    </select>
+
+
+
+    <select id="selectAllPerson" parameterType="com.cn.tju.util.DataTablePageUtil" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from person
+        order by name limit ${start},${length}
+    </select>
+
+
+    <select id="selectAllPersonSize"  resultType="java.lang.Integer">
+        select count(*)
+        from person
+    </select>
+
+
+
+</mapper>

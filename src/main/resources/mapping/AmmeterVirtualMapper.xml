@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.tju.IDao.AmmeterVirtualMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.tju.pojo.AmmeterVirtual" >
+    <constructor >
+      <idArg column="ammeterVirtual_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ammeterVirtual_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sensorType_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="energySecond_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="sensor_note" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ammeterVirtual_id, ammeterVirtual_name, sensorType_id, energySecond_id, sensor_note
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ammetervirtual
+    where ammeterVirtual_id = #{ammetervirtualId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ammetervirtual
+    where ammeterVirtual_id = #{ammetervirtualId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cn.tju.pojo.AmmeterVirtual" >
+    insert into ammetervirtual (ammeterVirtual_id, ammeterVirtual_name, 
+      sensorType_id, energySecond_id, sensor_note
+      )
+    values (#{ammetervirtualId,jdbcType=VARCHAR}, #{ammetervirtualName,jdbcType=VARCHAR}, 
+      #{sensortypeId,jdbcType=INTEGER}, #{energysecondId,jdbcType=INTEGER}, #{sensorNote,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.tju.pojo.AmmeterVirtual" >
+    insert into ammetervirtual
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ammetervirtualId != null" >
+        ammeterVirtual_id,
+      </if>
+      <if test="ammetervirtualName != null" >
+        ammeterVirtual_name,
+      </if>
+      <if test="sensortypeId != null" >
+        sensorType_id,
+      </if>
+      <if test="energysecondId != null" >
+        energySecond_id,
+      </if>
+      <if test="sensorNote != null" >
+        sensor_note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ammetervirtualId != null" >
+        #{ammetervirtualId,jdbcType=VARCHAR},
+      </if>
+      <if test="ammetervirtualName != null" >
+        #{ammetervirtualName,jdbcType=VARCHAR},
+      </if>
+      <if test="sensortypeId != null" >
+        #{sensortypeId,jdbcType=INTEGER},
+      </if>
+      <if test="energysecondId != null" >
+        #{energysecondId,jdbcType=INTEGER},
+      </if>
+      <if test="sensorNote != null" >
+        #{sensorNote,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.tju.pojo.AmmeterVirtual" >
+    update ammetervirtual
+    <set >
+      <if test="ammetervirtualName != null" >
+        ammeterVirtual_name = #{ammetervirtualName,jdbcType=VARCHAR},
+      </if>
+      <if test="sensortypeId != null" >
+        sensorType_id = #{sensortypeId,jdbcType=INTEGER},
+      </if>
+      <if test="energysecondId != null" >
+        energySecond_id = #{energysecondId,jdbcType=INTEGER},
+      </if>
+      <if test="sensorNote != null" >
+        sensor_note = #{sensorNote,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ammeterVirtual_id = #{ammetervirtualId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.tju.pojo.AmmeterVirtual" >
+    update ammetervirtual
+    set ammeterVirtual_name = #{ammetervirtualName,jdbcType=VARCHAR},
+      sensorType_id = #{sensortypeId,jdbcType=INTEGER},
+      energySecond_id = #{energysecondId,jdbcType=INTEGER},
+      sensor_note = #{sensorNote,jdbcType=VARCHAR}
+    where ammeterVirtual_id = #{ammetervirtualId,jdbcType=VARCHAR}
+  </update>
+</mapper>

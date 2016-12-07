@@ -1,0 +1,6 @@
+/**
+user coustomer js
+**/
+var index = "$!{treeIndex}";
+$(".sub-menu").parent(".open").removeClass("active").removeClass("open")
+$(".sub-menu").eq(index).parent().addClass("active").addClass("open")

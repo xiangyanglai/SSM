@@ -1,4 +1,88 @@
-#set($title="室内系统")
+#set($title="空调系统")
+#set($treeIndex="0")
+#set($catagory_name="系统概览")
+
+<style type="text/css">
+    .info_panel{
+        background: gray;
+        padding-bottom: 15px;
+        padding-top: 15px;
+        margin: 5px 0;
+    }
+    .number{
+        margin-right: 5px;
+    }
+    .info_number{
+        padding-top: 5%;
+    }
+    .auto_image{
+        width: 100%;
+    }
+    .info_panel img{
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6 col-xs-12 col-sm-6 col-lg-3">
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 info_panel bg-grey-salt">
+            <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4">
+                <img src="/assets/images/total.png">
+            </div>
+            <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8 info_number">
+               <span>建筑总能耗</span> 
+               <br> 
+               <div class="sbold">
+                   <span class="number">30.95</span>KWH 
+               </div>
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-6 col-xs-12 col-sm-6 col-lg-3">
+        <div class=" info_panel col-xs-12 col-sm-12 col-lg-12 bg-grey-salt">
+            <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4">
+                <img src="/assets/images/single.png">
+            </div>
+            <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8 info_number">
+               <span>单位面积能耗</span> 
+               <br> 
+               <div class="sbold">
+                   <span class="number">30.95</span>KWH 
+               </div>
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-6 col-xs-12 col-sm-6 col-lg-3">
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 info_panel bg-grey-salt">
+            <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4">
+                <img src="/assets/images/machine.png">
+            </div>
+            <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8 info_number">
+               <span>空调主机COP</span> 
+               <br> 
+               <div class="sbold">
+                   <span class="number">3.95</span>
+               </div>
+            </div>
+        </div>
+    </div> 
+    <div class="col-md-6 col-xs-12 col-sm-6 col-lg-3">
+        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 info_panel bg-grey-salt">
+            <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4">
+                <img src="/assets/images/efficiency.png">
+            </div>
+            <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8 info_number">
+               <span>空调系统能效</span> 
+               <br> 
+               <div class="sbold">
+                   <span class="number">88.95</span>% 
+               </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
 <div class="row">
     <div class="col-md-12 col-xs-12">
         <div class="portlet light portlet-fit bordered">
@@ -21,11 +105,9 @@
     </div>
 </div>
 
-<!--[if lt IE 9]>
-<script src="/assets/global/plugins/respond.min.js"></script>
-<script src="/assets/global/plugins/excanvas.min.js"></script>
-<![endif]-->
-
+#include("layout/footer.vm")
+#include("layout/corescript.vm")
+#parse("layout/common.vm")
 
 <script type="text/javascript">
 
@@ -33,6 +115,10 @@
     var ctxs;
     canvas.width = $("#myCopyImage").parent().width();
     canvas.height = $("#myCopyImage").parent().height();
+    if(navigator.userAgent.indexOf("MSIE")>0)
+    {
+        $(canvas).height($("#myCopyImage").parent().height());
+    }
     var img = new Image();
     //简单地检测当前浏览器是否支持Canvas对象，以免在一些不支持html5的浏览器中提示语法错误
     if(canvas.getContext){
@@ -59,5 +145,3 @@
     }
     setInterval(myClickHandler,1000);
 </script>
-
-           

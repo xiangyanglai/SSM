@@ -1,4 +1,6 @@
 #set($title="室内系统")
+#set($treeIndex="0")
+#set($catagory_name="系统概览")
 <div class="row">
     <div class="col-md-12 col-xs-12">
         <div class="portlet light portlet-fit bordered">
@@ -27,8 +29,16 @@
 <![endif]-->
 
 
+
+#include("layout/footer.vm")
+#include("layout/corescript.vm")
+#parse("layout/common.vm")
+
 <script type="text/javascript">
 
+    var index = "$!{treeIndex}";
+    $(".sub-menu").parent(".open").removeClass("active").removeClass("open");
+    $(".sub-menu").eq(index).parent().addClass("active").addClass("open");
     var canvas = document.getElementById("myCanvas");
     var ctxs;
     canvas.width = $("#myCopyImage").parent().width();
@@ -43,12 +53,7 @@
         //指定图片的URL
         img.src = "/assets/images/inroom.jpg";
         //浏览器加载图片完毕后再绘制图片
-        img.onload = function(){
-            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
-            ctx.drawImage(img, 10, 10);
-            ctx.save();
-            ctx.fillText("CodePlayer+中文测试", 60, 50);
-        };
+
     }
     function myClickHandler()
     {
@@ -57,8 +62,24 @@
         ctx.fillText(Math.round(20+Math.random()*10)+"度", 310, 240);
         ctx.fillText(Math.round(20+Math.random()*10)+"度", 405, 60);
         ctx.fillText(Math.round(20+Math.random()*10)+"度", 500, 285);
-    }
-    setInterval(myClickHandler,1000);
-</script>
 
-           
+        //发送Ajax请求更新数据
+        $.ajax({
+            url:"/data/queryTem",
+            type:"POST",
+            data:{
+                "sensorId":"T0001",
+                "queryDate":new Date().pattern("yyyy-MM-dd hh:mm:ss")
+            },
+            success:function(data){
+                if(data.success)
+                {
+                    //更新数据操作
+                    ctx.fillText(Math.round(20+Math.random()*10)+"度", 150, 340);
+                }
+            }
+        });
+    }
+    myClickHandler();
+    setInterval(myClickHandler,6000);
+</script>

@@ -1,10 +1,62 @@
 #set($title="同环比分析")
+#set($treeIndex="1")
+#set($catagory_name="能耗记录")
+<!-- BEGIN PAGE LEVEL STYLE -->
 <link href="/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 
 <link href="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" type="text/css" />
 <link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
 <link href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
 <link href="/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    .myline{
+        margin-bottom: 6px;
+    }
+</style>
+<!-- END PAGE LEVEL STYLE -->
+
+<div class="row" style="margin-bottom:16px">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="col-md-2 col-sm-3 col-xs-12 myline">分项查询：</div>
+      <div class="col-md-3 col-sm-4 col-xs-12 myline">
+          <select class="form-control" id="myTypeSelect" name="type">
+            <option selected="selected">能耗总和</option> 
+            <option>照明能耗</option>
+            <option>办公室插座能耗</option>
+            <option>空调能耗</option>
+            <option>其他能耗</option>
+          </select>
+      </div>
+        
+      <div class="col-md-3 col-sm-4 col-xs-12 myline">
+          <select class="form-control" id="secondType" name="secondType">
+            <option data-ref="0">能耗总和</option> 
+            <option data-ref="1">能耗总和</option> 
+            <option data-ref="1">区域A</option> 
+            <option data-ref="1">区域B</option> 
+            <option data-ref="1">区域C</option> 
+            <option data-ref="1">区域D</option> 
+            <option data-ref="2">能耗总和</option> 
+            <option data-ref="2">区域A</option> 
+            <option data-ref="2">区域B</option> 
+            <option data-ref="2">区域C</option> 
+            <option data-ref="2">区域D</option>
+            <option data-ref="3">能耗总和</option> 
+            <option data-ref="3">冷热源能耗</option> 
+            <option data-ref="3">输配能耗</option> 
+            <option data-ref="3">末端能耗</option> 
+            <option data-ref="4">能耗总和</option>
+            <option data-ref="4">二楼光度实验室能耗</option>
+          </select>
+      </div>
+
+      <div class="col-md-2 col-sm-2 col-xs-12 myline" style="text-align:center">
+          <button type="button" class="btn green">
+              <span>确认</span>
+          </button>
+      </div>
+  </div>
+</div>
 
 <div class="row">
     <div class="col-md-12 col-xs-12">
@@ -14,18 +66,29 @@
                     <i class=" icon-layers font-green"></i>
                     <span class="caption-subject font-green bold uppercase">环比分析</span>
                 </div>
+
             </div>
             <div class="portlet-body">
-                <div>
-                    <div class="col-md-12">
-                        <div class="col-md-4">
-                            <input type="checkbox" class="make-switch" checked data-on-text="按年" data-off-text="按月" data-on-color="primary" data-size="small">
-                        </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-2 col-sm-12 col-xs-12">
+                        <input type="radio" checked name="tbfx_type" value="byMonth" class="queryType">
+                        <label class="control-label">按月</label>
+
+                        <input type="radio" checked name="tbfx_type" value="byYear" class="queryType">
+                        <label class="control-label ">按年</label>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-12" style="text-align:center">
+                        <button type="button" class="btn green" id="myButton">
+                            <span>确认</span>
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <div id="hbfx_bar" style="height:500px;"></div>
-                </div>
+            </div>
+            <div class="row">
+                <div id="chart_1" style="height:500px;"></div>
+                <div id="chart_3" style="height:500px;" class="hidden"></div>
+            </div>
             </div>
         </div>
     </div>
@@ -40,9 +103,9 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <div>
-                    <div class="col-md-12">
-                        <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-md-3 col-sm-12 col-xs-12">
                             <input type="radio" checked name="tbfx_type">
                             <label class="control-label ">按天</label>
 
@@ -52,35 +115,45 @@
                             <input type="radio" checked name="tbfx_type">
                             <label class="control-label ">按月</label>
                         </div>
-                        <div class="col-md-1">区间</div>
-                        <div class="col-md-3">
-                            <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" />
+                        <div class="col-md-1 col-sm-2 col-xs-12">区间</div>
+                        <div class="col-md-3 col-sm-4 col-xs-12">
+                            <input class="form-control form-control-inline input-medium" id="date-picker" size="16" type="text" value="" />
                         </div>
-                        <div class="col-md-3">
-                            <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" />
-
-                        </div>
-                        <div class="col-md-2" style="text-align:center">
+                        <div class="col-md-2 col-sm-2 col-xs-12" style="text-align:center">
                             <button type="button" class="btn green">
                                 <span>确认</span>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div id="tbfx_bar" style="height:500px;"></div>
+                <div class="row">
+                    <div id="chart_2" style="height:500px;"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+#include("layout/footer.vm")
+#include("layout/corescript.vm")
+#parse("layout/common.vm")
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="/assets/global/plugins/fullcalendar/lib/moment.min.js" type="text/javascript"></script>
 <script src="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-<script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
-<script src="/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/echarts/echarts-all.js" type="text/javascript"></script>
+
+<script src="/assets/global/plugins/amcharts/amcharts/amcharts.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/amcharts/amcharts/serial.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/amcharts/amcharts/pie.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/amcharts/amcharts/radar.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/amcharts/amcharts/themes/light.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/amcharts/amcharts/themes/patterns.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/amcharts/amcharts/themes/chalk.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/amcharts/ammap/ammap.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/amcharts/ammap/maps/js/worldLow.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/amcharts/amstockcharts/amstock.js" type="text/javascript"></script>
+<script src="/assets/global/scripts/app.js" type="text/javascript"></script>
 <script src="/assets/pages/scripts/circle.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+
            

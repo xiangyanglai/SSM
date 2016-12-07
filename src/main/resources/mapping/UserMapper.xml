@@ -1,101 +1,179 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--通过接口方式访问数据库-->
+
 <mapper namespace="com.cn.tju.IDao.UserDao" >
 
   <resultMap id="BaseResultMap" type="com.cn.tju.pojo.User" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="username" property="username" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="age" property="age" jdbcType="INTEGER" />
+    <constructor >
+      <idArg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="user_pwd" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="user_phone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="user_email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="datetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="user_flag" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_role" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_note" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
   </resultMap>
 
+
   <sql id="Base_Column_List" >
-    id, username, password, age
+    user_id, user_name, user_pwd, user_phone, user_email, datetime, user_flag, user_role,
+    user_note
   </sql>
-  
 
+
+    <!--根据用户名获取用户-->
     <select id="selectLogin" resultMap="BaseResultMap" parameterType="String">
-   select * from user
-    where username = #{username,jdbcType=VARCHAR}
-  </select>
-  
-  
-  <select id="selectId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-   select * from user
-    where id = #{id,jdbcType=INTEGER}
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_name = #{username,jdbcType=VARCHAR}
   </select>
 
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+  <!--按照Id获取用户-->
+  <select id="selectId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
     <include refid="Base_Column_List" />
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
 
+  <!--获取全部用户-->
+  <select id="selectAllUser" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user
-    where id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.cn.tju.pojo.User" >
-    insert into user (username, password, age)
-    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.cn.tju.pojo.User" >
+    insert into user (user_id, user_name, user_pwd,
+    user_phone, user_email, datetime,
+    user_flag, user_role, user_note
+    )
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR},
+    #{userPhone,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{datetime,jdbcType=TIMESTAMP},
+    #{userFlag,jdbcType=INTEGER}, #{userRole,jdbcType=INTEGER}, #{userNote,jdbcType=VARCHAR}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.cn.tju.pojo.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="userId != null" >
+        user_id,
       </if>
-      <if test="username != null" >
-        username,
+      <if test="userName != null" >
+        user_name,
       </if>
-      <if test="password != null" >
-        password,
+      <if test="userPwd != null" >
+        user_pwd,
       </if>
-      <if test="age != null" >
-        age,
+      <if test="userPhone != null" >
+        user_phone,
+      </if>
+      <if test="userEmail != null" >
+        user_email,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+      <if test="userFlag != null" >
+        user_flag,
+      </if>
+      <if test="userRole != null" >
+        user_role,
+      </if>
+      <if test="userNote != null" >
+        user_note,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="username != null" >
-        #{username,jdbcType=VARCHAR},
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
+      <if test="userPwd != null" >
+        #{userPwd,jdbcType=VARCHAR},
       </if>
-      <if test="age != null" >
-        #{age,jdbcType=INTEGER},
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userFlag != null" >
+        #{userFlag,jdbcType=INTEGER},
+      </if>
+      <if test="userRole != null" >
+        #{userRole,jdbcType=INTEGER},
+      </if>
+      <if test="userNote != null" >
+        #{userNote,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-
   <update id="updateByPrimaryKeySelective" parameterType="com.cn.tju.pojo.User" >
     update user
     <set >
-      <if test="username != null" >
-        username = #{username,jdbcType=VARCHAR},
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
+      <if test="userPwd != null" >
+        user_pwd = #{userPwd,jdbcType=VARCHAR},
       </if>
-      <if test="age != null" >
-        age = #{age,jdbcType=INTEGER},
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userFlag != null" >
+        user_flag = #{userFlag,jdbcType=INTEGER},
+      </if>
+      <if test="userRole != null" >
+        user_role = #{userRole,jdbcType=INTEGER},
+      </if>
+      <if test="userNote != null" >
+        user_note = #{userNote,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cn.tju.pojo.User" >
     update user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      age = #{age,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    set user_name = #{userName,jdbcType=VARCHAR},
+    user_pwd = #{userPwd,jdbcType=VARCHAR},
+    user_phone = #{userPhone,jdbcType=VARCHAR},
+    user_email = #{userEmail,jdbcType=VARCHAR},
+    datetime = #{datetime,jdbcType=TIMESTAMP},
+    user_flag = #{userFlag,jdbcType=INTEGER},
+    user_role = #{userRole,jdbcType=INTEGER},
+    user_note = #{userNote,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  
-  
-  
+
+
+
 </mapper>

@@ -1,93 +1,187 @@
+var dataProviderData = [{
+    "date": "1",
+    "distance": 227,
+}, {
+    "date": "2",
+    "distance": 371,
+}, {
+    "date": "3",
+    "distance": 433,
+}, {
+    "date": "4",
+    "distance": 345,
+}, {
+    "date": "5",
+    "distance": 386,
+}, {
+    "date": "6",
+    "distance": 348,
+    "townName": "New Orleans",
+}, {
+    "date": "7",
+    "distance": 238,
+    "townName": "Houston",
+}, {
+    "date": "8",
+    "distance": 218,
+}, {
+    "date": "9",
+    "distance": 349,
+}, {
+    "date": "10",
+    "distance": 603,
+}, {
+    "date": "11",
+    "distance": 603,
+}, {
+    "date": "12",
+    "distance": 603,
+}, {
+    "date": "13",
+    "distance": 603,
+}, {
+    "date": "14",
+    "distance": 603,
+}, {
+    "date": "15",
+    "distance": 603,
+}, {
+    "date": "16",
+    "distance": 603,
+}, {
+    "date": "17",
+    "distance": 603,
+}, {
+    "date": "18",
+    "distance": 603,
+}, {
+    "date": "19",
+    "distance": 534,
+
+},{
+    "date": "20",
+    "distance": 603,
+}, {
+    "date": "21",
+    "distance": 603,
+}, {
+    "date": "22",
+    "distance": 603,
+
+}, {
+    "date": "23",
+    "distance": 603,
+
+}, {
+    "date": "24",
+    "distance": 603,
+} ];
+
+var ChartsAmcharts = function() {
+
+    var initChartSample1 = function(data,container,graphTitles) {
+
+        var graphs = [];
+        $.each(graphTitles,function(){
+            var graphTemplate = {
+                "alphaField": "alpha",
+                "balloonText": "[[value]] ",
+                "dashLengthField": "dashLength",
+                "fillAlphas": 0.7,
+                "legendValueText": "[[value]] ",
+                "type": "column",
+                "valueField": "distance",
+                "valueAxis": "distanceAxis"
+            };
+            graphTemplate.title = this;
+            graphs.push(graphTemplate);
+        })
+        var configData = {
+            "type": "serial",
+            "theme": "light",
+
+            "fontFamily": 'Open Sans',
+            "color":    '#888888',
+
+            "legend": {
+                "equalWidths": false,
+                "useGraphSettings": true,
+                "valueAlign": "left",
+                "valueWidth": 120
+            },
+            "dataProvider": data,
+            "valueAxes": [{
+                "id": "distanceAxis",
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+                "position": "left",
+                "title": "数值"
+            }],
+            "graphs":graphs,
+            "chartCursor": {
+                "categoryBalloonDateFormat": "DD",
+                "cursorAlpha": 0.1,
+                "cursorColor": "#000000",
+                "fullWidth": true,
+                "valueBalloonsEnabled": false,
+                "zoomable": false
+            },
+            "categoryField": "date",
+            "categoryAxis": {
+                "autoGridCount": false,
+                "axisColor": "#555555",
+                "gridAlpha": 0.1,
+                "gridColor": "#FFFFFF",
+                "gridCount": 50
+            },
+            "exportConfig": {
+                "menuBottom": "20px",
+                "menuRight": "22px",
+                "menuItems": [{
+                    "icon": App.getGlobalPluginsPath() + "amcharts/amcharts/images/export.png",
+                    "format": 'png'
+                }]
+            }
+        };
+
+        var chart = AmCharts.makeChart(container, configData
+        );
+        $(container).closest('.portlet').find('.fullscreen').click(function() {
+            chart.invalidateSize();
+        });
+    }
+
+    return {
+        //main function to initiate the module
+
+        init: function(data,container,graphTitles) {
+            initChartSample1(data,container,graphTitles);
+        }
+
+    };
+
+}();
+
+function getRandomData(){
+    var myFillData = [];
+    for(var i=0;i<24;i++)
+    {
+        var data = {};
+        data.date = i+"";
+        data.distance = Math.random()*10+60;
+        myFillData.push(data);
+    }
+    ChartsAmcharts.init(myFillData,"chart_1",["一层照明能耗","二层照明能耗","辐射度"]);
+    ChartsAmcharts.init(myFillData,"chart_2",["一层插座能耗","二层插座能耗"]);
+    ChartsAmcharts.init(myFillData,"chart_3",["冷热源消耗","输配能耗","末端能耗"]);
+    ChartsAmcharts.init(myFillData,"chart_6",["二楼光度实验室能耗"]);
+}
+
 jQuery(document).ready(function() {
-	var fxjl_bar = echarts.init(document.getElementById("fxjl_bar"));
-	var bgcz_bar = echarts.init(document.getElementById("bgcz_bar"));
-	var ktnh_bar = echarts.init(document.getElementById("ktnh_bar"));
-	var qtnh_bar = echarts.init(document.getElementById("qtnh_bar"));
-
-	var option = {
-		tooltip: {
-			trigger: "axis"
-		},
-		legend: {
-			selected: {
-				"房间A": true
-			},
-			data: ["房间A", "房间B", "房间C", "房间D"]
-		},
-		toolbox: {
-			show: !0,
-			feature: {
-				restore: {
-					show: !0
-				},
-				saveAsImage: {
-					show: !0
-				}
-			}
-		},
-		calculable: !0,
-		xAxis: [{
-			type: "category",
-			data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-		}],
-		yAxis: [{
-			type: "value",
-			splitArea: {
-				show: !0
-			}
-		}],
-		series: [{
-			name: "房间A",
-			type: "bar",
-			data: [2, 4.9, 7, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20, 6.4, 3.3]
-		}, {
-			name: "房间B",
-			type: "bar",
-			data: [2, 4.9, 7, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20, 6.4, 3.3]
-		}, {
-			name: "房间C",
-			type: "bar",
-			data: [2, 4.9, 7, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20, 6.4, 3.3]
-		}, {
-			name: "房间D",
-			type: "bar",
-			data: [2.6, 5.9, 9, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6, 2.3]
-		}]
-	};
-	fxjl_bar.setOption(option);
-	bgcz_bar.setOption(option);
-	ktnh_bar.setOption(option);
-	qtnh_bar.setOption(option);
-
-	function changeState(handler, option, mySelectSeries, state) {
-		option.legend.selected[mySelectSeries] = state;
-		handler.setOption(option, true);
-		handler.restore();
-	}
-
-	$('.make-switch').on('switchChange.bootstrapSwitch', function(event, state) {
-		var owner = $(this).attr('owner');
-		var mySelectSeries = $(this).parent().parent().prev().text();
-		var myOption;
-		switch (owner) {
-			case 'fxjl_bar':
-				myOption = fxjl_bar.getOption();
-				changeState(fxjl_bar, myOption, mySelectSeries, state);
-				break;
-			case 'bgcz_bar':
-				myOption = bgcz_bar.getOption();
-				changeState(bgcz_bar, myOption, mySelectSeries, state);
-				break;
-			case 'ktnh_bar':
-				myOption = bgcz_bar.getOption();
-				changeState(bgcz_bar, myOption, mySelectSeries, state);
-				break;
-			case 'qtnh_bar':
-				myOption = qtnh_bar.getOption();
-				changeState(qtnh_bar, myOption, mySelectSeries, state);
-				break;
-		}
-
-	});
-
+    $('.mydate').datepicker({
+        orientation:'bottom auto',
+        language:"zh-CN"
+    });
+    getRandomData();
+    setInterval(getRandomData, 2000);
 });

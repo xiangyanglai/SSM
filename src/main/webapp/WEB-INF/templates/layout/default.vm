@@ -14,29 +14,139 @@
     <meta content="" name="description" />
     <meta content="" name="author" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
     <link href="/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
-    <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <link href="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/global/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css" />
-    <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL STYLES -->
     <link href="/assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
     <link href="/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
     <!-- END THEME GLOBAL STYLES -->
     <!-- BEGIN THEME LAYOUT STYLES -->
     <link href="/assets/layouts/layout4/css/layout.min.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/layouts/layout4/css/themes/light.min.css" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="/assets/layouts/layout4/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
     <link href="/assets/layouts/layout4/css/custom.min.css" rel="stylesheet" type="text/css" />
     <!-- END THEME LAYOUT STYLES -->
     <link rel="shortcut icon" href="favicon.ico" /> </head>
-    <script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/custom/js/DateFormat.js" type="text/javascript"></script>
+<style type="text/css">
+    .myBreadcrumb {
+        /*centering*/
+        text-align: center;
+        display: inline-block;
+        box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+        border-radius: 5px;
+        /*Lets add the numbers for each link using CSS counters. flag is the name of the counter. to be defined using counter-reset in the parent element of the links*/
+        counter-reset: flag;
+        margin-bottom: 6px;
+    }
+
+    .myBreadcrumb a {
+        text-decoration: none;
+        outline: none;
+        display: block;
+        float: left;
+        font-size: 12px;
+        line-height: 36px;
+        color: white;
+        /*need more margin on the left of links to accomodate the numbers*/
+        padding: 0 10px 0 60px;
+        background: #666;
+        background: linear-gradient(#666, #333);
+        position: relative;
+    }
+    /*since the first link does not have a triangle before it we can reduce the left padding to make it look consistent with other links*/
+    .myBreadcrumb a:first-child {
+        padding-left: 46px;
+        border-radius: 5px 0 0 5px; /*to match with the parent's radius*/
+    }
+    .myBreadcrumb a:first-child:before {
+        left: 14px;
+    }
+    .myBreadcrumb a:last-child {
+        border-radius: 0 5px 5px 0; /*this was to prevent glitches on hover*/
+        padding-right: 20px;
+    }
+
+    /*hover/active styles*/
+    .myBreadcrumb a.active, .myBreadcrumb a:hover{
+        background: #333;
+        background: linear-gradient(#333, #000);
+    }
+    .myBreadcrumb a.active:after, .myBreadcrumb a:hover:after {
+        background: #333;
+        background: linear-gradient(135deg, #333, #000);
+    }
+
+    /*adding the arrows for the myBreadcrumbs using rotated pseudo elements*/
+    .myBreadcrumb a:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -18px; /*half of square's length*/
+        /*same dimension as the line-height of .myBreadcrumb a */
+        width: 36px;
+        height: 36px;
+        /*as you see the rotated square takes a larger height. which makes it tough to position it properly. So we are going to scale it down so that the diagonals become equal to the line-height of the link. We scale it to 70.7% because if square's:
+        length = 1; diagonal = (1^2 + 1^2)^0.5 = 1.414 (pythagoras theorem)
+        if diagonal required = 1; length = 1/1.414 = 0.707*/
+        transform: scale(0.707) rotate(45deg);
+        /*we need to prevent the arrows from getting buried under the next link*/
+        z-index: 1;
+        /*background same as links but the gradient will be rotated to compensate with the transform applied*/
+        background: #666;
+        background: linear-gradient(135deg, #666, #333);
+        /*stylish arrow design using box shadow*/
+        box-shadow:
+                2px -2px 0 2px rgba(0, 0, 0, 0.4),
+                3px -3px 0 2px rgba(255, 255, 255, 0.1);
+        /*
+          5px - for rounded arrows and
+          50px - to prevent hover glitches on the border created using shadows*/
+        border-radius: 0 5px 0 50px;
+    }
+    /*we dont need an arrow after the last link*/
+    .myBreadcrumb a:last-child:after {
+        content: none;
+    }
+    /*we will use the :before element to show numbers*/
+    .myBreadcrumb a:before {
+        content: counter(flag);
+        counter-increment: flag;
+        /*some styles now*/
+        border-radius: 100%;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        margin: 8px 0;
+        position: absolute;
+        top: 0;
+        left: 30px;
+        background: #444;
+        background: linear-gradient(#444, #222);
+        font-weight: bold;
+    }
+
+
+    .flat a, .flat a:after {
+        background: gray;
+        color: black;
+        transition: all 0.5s;
+    }
+    .flat a:before {
+        background: gray;
+        box-shadow: 0 0 0 1px #ccc;
+    }
+    .flat a:hover, .flat a.active,
+    .flat a:hover:after, .flat a.active:after{
+        background: #bcd2ac;
+    }
+
+</style>
+</head>
 <!-- END HEAD -->
 
 <body class="page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo">
@@ -76,7 +186,7 @@
                             <img alt="" class="img-circle" src="/assets/layouts/layout4/img/avatar9.jpg" /> </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
-                                <a href="page_user_profile_1.html">
+                                <a href="/user/userInfo">
                                     <i class="icon-user"></i> 个人中心 </a>
                             </li>
                             <li class="divider"> </li>
@@ -112,12 +222,6 @@
         <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
         <div class="page-sidebar navbar-collapse collapse">
             <!-- BEGIN SIDEBAR MENU -->
-            <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
-            <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
-            <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
-            <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-            <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
-            <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
             <ul class="page-sidebar-menu   " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                 <li class="heading">
                     <h3 class="uppercase">功能面板</h3>
@@ -161,11 +265,10 @@
                         <li class="nav-item  ">
                             <a href="/user/circle" class="nav-link ">
                                 <span class="title">同环比分析</span>
-                                <span class="badge badge-danger">2</span>
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="/user/data" class="nav-link ">
+                            <a href="/user/data_nh" class="nav-link ">
                                 <span class="title">数据报表</span>
                             </a>
                         </li>
@@ -179,12 +282,12 @@
                     </a>
                     <ul class="sub-menu">
                         <li class="nav-item  ">
-                            <a href="/system/comming" class="nav-link ">
+                            <a href="/user/nxtj" class="nav-link ">
                                 <span class="title">能效统计图</span>
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="/user/data" class="nav-link ">
+                            <a href="/user/data_nx" class="nav-link ">
                                 <span class="title">数据报表</span>
                             </a>
                         </li>
@@ -198,13 +301,13 @@
                     </a>
                     <ul class="sub-menu">
                         <li class="nav-item  ">
-                            <a href="/system/comming" class="nav-link ">
+                            <a href="/system/alarm" class="nav-link ">
                                 <span class="title">系统预警</span>
                             </a>
                         </li>
                         <li class="nav-item  ">
                             <a href="/admin/user_manage" class="nav-link ">
-                                <span class="title">用户管理</span>
+                                <span class="title">系统管理</span>
                             </a>
                         </li>
                     </ul>
@@ -219,6 +322,46 @@
     <div class="page-content-wrapper">
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
+            <div class="page-head">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>
+                        <span class="caption-subject font-green bold uppercase">$!{catagory_name}</span>
+                    </h1>
+
+                </div>
+                <!-- END PAGE TITLE -->
+                <div class="page-toolbar">
+                    <div id="dashboard-report-range" class="pull-right tooltips btn btn-fit-height green" data-placement="top" data-original-title="Change dashboard date range">
+                        <i class="icon-calendar"></i>&nbsp;
+                        <span class="thin uppercase hidden-xs myDateShow"></span>&nbsp;
+                        <i class="fa fa-angle-down"></i>
+                    </div>
+                    <!-- BEGIN THEME PANEL -->
+
+                    <!-- END THEME PANEL -->
+                </div>
+            </div>
+            <div class="page-bar">
+
+                <div class="myBreadcrumb flat">
+                    <a href="/main/admin/index">首页</a>
+                    <a href="#" class="active"><span>$!{title}</span></a>
+                </div>
+
+
+                <!--   <ul class="page-myBreadcrumb myBreadcrumb">
+                <li>
+                    <i class="fa fa-home"></i>
+                    <a href="/main/admin/index">首页</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                <li>
+                    <span>$!{title}</span>
+                </li>
+            </ul> -->
+            </div>
+
             $screen_content
         </div>
         <!-- END CONTENT BODY -->
@@ -231,36 +374,9 @@
     <!-- END QUICK SIDEBAR -->
 </div>
 <!-- END CONTAINER -->
-<!-- BEGIN FOOTER -->
-<div class="page-footer">
-    <div class="page-footer-inner" style="text-align:center"> 2016 &copy; 天津大学.
-    </div>
-    <div class="scroll-to-top">
-        <i class="icon-arrow-up"></i>
-    </div>
-</div>
-<!-- END FOOTER -->
-<!--[if lt IE 9]>
-<script src="/assets/global/plugins/respond.min.js"></script>
-<script src="/assets/global/plugins/excanvas.min.js"></script>
-<![endif]-->
-<!-- BEGIN CORE PLUGINS -->
-<script src="/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/morris/morris.min.js" type="text/javascript"></script>
-<script src="/assets/global/plugins/morris/raphael-min.js" type="text/javascript"></script>
-<script src="/assets/global/scripts/app.min.js" type="text/javascript"></script>
-
-<!-- END THEME GLOBAL SCRIPTS -->
-<!-- BEGIN PAGE LEVEL SCRIPTS -->
-<script src="/assets/pages/scripts/dashboard.min.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL SCRIPTS -->
-<!-- BEGIN THEME LAYOUT SCRIPTS -->
-<script src="/assets/layouts/layout4/scripts/layout.min.js" type="text/javascript"></script>
-<script src="/assets/layouts/layout4/scripts/demo.min.js" type="text/javascript"></script>
-<!-- END THEME LAYOUT SCRIPTS -->
 </body>
+<script>
+    $(".myDateShow").text(new Date().pattern("yyyy-MM-dd EEE"));
+</script>
 
 </html>

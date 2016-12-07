@@ -12,6 +12,7 @@
 
 	<mvc:annotation-driven />
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
+	<context:component-scan base-package="com.cn.tju.service.impl" />
 	<context:component-scan base-package="com.cn.tju.controller" />
 
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
@@ -37,14 +38,6 @@
 	<!-- 拦截静态资源 -->
 	<mvc:resources mapping="/assets/**" location="/assets/"/>
 	
-<!--	 定义跳转的文件的前后缀 ，视图模式配置
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		&lt;!&ndash; 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 &ndash;&gt;
-		<property name="prefix" value="/WEB-INF/pages/" />
-		<property name="suffix" value=".jsp" />
-	</bean>-->
-
-
 	<!-- 模板信息设置 -->
 	<bean id="velocityConfigurer"
 		  class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
@@ -83,48 +76,5 @@
         <property name="maxInMemorySize" value="40960" />  
     </bean>
 
-
-
-	<!-- 使用MethodInvokingJobDetailFactoryBean，任务类可以不实现Job接口，通过targetMethod指定调用方法 -->
-	<bean id="taskJob" class="com.cn.tju.work.MyWorker" />
-
-	<bean id="jobDetail"
-		  class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="group" value="job_work" />
-		<property name="name" value="job_work_name" />
-		<!--false表示等上一个任务执行完后再开启新的任务 -->
-		<property name="concurrent" value="false" />
-		<property name="targetObject">
-			<ref bean="taskJob" />
-		</property>
-		<property name="targetMethod">
-			<value>running</value>
-		</property>
-	</bean>
-
-	<!-- 调度触发器 -->
-	<bean id="myTrigger"
-		  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="name" value="work_default_name" />
-		<property name="group" value="work_default" />
-		<property name="jobDetail">
-			<ref bean="jobDetail" />
-		</property>
-		<property name="cronExpression">
-			<value>0/60 * * * * ?</value>
-		</property>
-	</bean>
-
-	<!-- 调度工厂 -->
-	<bean id="scheduler"
-		  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="triggers">
-			<list>
-				<ref bean="myTrigger" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="userServiceImpl" class="com.cn.tju.service.impl.UserServiceImpl"/>
 
 </beans>

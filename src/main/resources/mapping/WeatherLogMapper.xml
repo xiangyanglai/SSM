@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.tju.IDao.WeatherLogMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.tju.pojo.WeatherLog" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="sensor_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="weather_temprature" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="weather_humidity" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="weather_irradiancy" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="datetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sensor_id, weather_temprature, weather_humidity, weather_irradiancy, datetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from weatherlog
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from weatherlog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.tju.pojo.WeatherLog" >
+    insert into weatherlog (id, sensor_id, weather_temprature, 
+      weather_humidity, weather_irradiancy, datetime
+      )
+    values (#{id,jdbcType=INTEGER}, #{sensorId,jdbcType=VARCHAR}, #{weatherTemprature,jdbcType=REAL}, 
+      #{weatherHumidity,jdbcType=REAL}, #{weatherIrradiancy,jdbcType=REAL}, #{datetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.tju.pojo.WeatherLog" >
+    insert into weatherlog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sensorId != null" >
+        sensor_id,
+      </if>
+      <if test="weatherTemprature != null" >
+        weather_temprature,
+      </if>
+      <if test="weatherHumidity != null" >
+        weather_humidity,
+      </if>
+      <if test="weatherIrradiancy != null" >
+        weather_irradiancy,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sensorId != null" >
+        #{sensorId,jdbcType=VARCHAR},
+      </if>
+      <if test="weatherTemprature != null" >
+        #{weatherTemprature,jdbcType=REAL},
+      </if>
+      <if test="weatherHumidity != null" >
+        #{weatherHumidity,jdbcType=REAL},
+      </if>
+      <if test="weatherIrradiancy != null" >
+        #{weatherIrradiancy,jdbcType=REAL},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.tju.pojo.WeatherLog" >
+    update weatherlog
+    <set >
+      <if test="sensorId != null" >
+        sensor_id = #{sensorId,jdbcType=VARCHAR},
+      </if>
+      <if test="weatherTemprature != null" >
+        weather_temprature = #{weatherTemprature,jdbcType=REAL},
+      </if>
+      <if test="weatherHumidity != null" >
+        weather_humidity = #{weatherHumidity,jdbcType=REAL},
+      </if>
+      <if test="weatherIrradiancy != null" >
+        weather_irradiancy = #{weatherIrradiancy,jdbcType=REAL},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.tju.pojo.WeatherLog" >
+    update weatherlog
+    set sensor_id = #{sensorId,jdbcType=VARCHAR},
+      weather_temprature = #{weatherTemprature,jdbcType=REAL},
+      weather_humidity = #{weatherHumidity,jdbcType=REAL},
+      weather_irradiancy = #{weatherIrradiancy,jdbcType=REAL},
+      datetime = #{datetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select
+    <include refid="Base_Column_List" />
+    from weatherlog
+     <where>
+        <if test="startTime!=null and startTime!=''">
+         datetime &gt;= #{startTime}
+        </if>
+       <if test="endTime!=null and endTime!=''">
+         and datetime &lt;= #{endTime}
+       </if>
+     </where>
+  </select>
+
+</mapper>

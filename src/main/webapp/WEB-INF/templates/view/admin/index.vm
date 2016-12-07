@@ -1,4 +1,5 @@
 #set($title="建筑环境能耗智能管理系统")
+#set($treeIndex="0")
 <style type="text/css">
     .info_panel{
         background: gray;
@@ -58,7 +59,7 @@
                <span>空调主机COP</span> 
                <br> 
                <div class="sbold">
-                   <span class="number">30.95</span>KWH 
+                   <span class="number">3.72</span>KWH 
                </div>
             </div>
         </div>
@@ -72,7 +73,7 @@
                <span>空调系统能效</span> 
                <br> 
                <div class="sbold">
-                   <span class="number">30.95</span>KWH 
+                   <span class="number">88.22%</span>KWH 
                </div>
             </div>
         </div>
@@ -96,4 +97,8 @@
         </div>
     </div>
 </div>
+
+#include("layout/footer.vm")
+#include("layout/corescript.vm")
+#parse("layout/common.vm")
            

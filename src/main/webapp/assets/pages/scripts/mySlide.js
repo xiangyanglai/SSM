@@ -40,6 +40,6 @@ $.fn.mySlidePlugin = function(options) {
     return this.each(function(){
 	    //创建MySlide的实体
  	   var mySlide = new MySlide(this, options);
-       setInterval(mySlide.log.bind(mySlide),2000);
+       setInterval(mySlide.log.bind(mySlide),6000);
     });
 }

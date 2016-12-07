@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.tju.IDao.HotMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.tju.pojo.Hot" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="sensor_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="hot_outTem" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="hot_inTem" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="hot_flow" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="hot_total" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="datetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sensor_id, hot_outTem, hot_inTem, hot_flow, hot_total, datetime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cn.tju.pojo.HotExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from hot
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hot
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hot
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.tju.pojo.Hot" >
+    insert into hot (id, sensor_id, hot_outTem, 
+      hot_inTem, hot_flow, hot_total, 
+      datetime)
+    values (#{id,jdbcType=INTEGER}, #{sensorId,jdbcType=VARCHAR}, #{hotOuttem,jdbcType=REAL}, 
+      #{hotIntem,jdbcType=REAL}, #{hotFlow,jdbcType=REAL}, #{hotTotal,jdbcType=REAL}, 
+      #{datetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.tju.pojo.Hot" >
+    insert into hot
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sensorId != null" >
+        sensor_id,
+      </if>
+      <if test="hotOuttem != null" >
+        hot_outTem,
+      </if>
+      <if test="hotIntem != null" >
+        hot_inTem,
+      </if>
+      <if test="hotFlow != null" >
+        hot_flow,
+      </if>
+      <if test="hotTotal != null" >
+        hot_total,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sensorId != null" >
+        #{sensorId,jdbcType=VARCHAR},
+      </if>
+      <if test="hotOuttem != null" >
+        #{hotOuttem,jdbcType=REAL},
+      </if>
+      <if test="hotIntem != null" >
+        #{hotIntem,jdbcType=REAL},
+      </if>
+      <if test="hotFlow != null" >
+        #{hotFlow,jdbcType=REAL},
+      </if>
+      <if test="hotTotal != null" >
+        #{hotTotal,jdbcType=REAL},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cn.tju.pojo.HotExample" resultType="java.lang.Integer" >
+    select count(*) from hot
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.tju.pojo.Hot" >
+    update hot
+    <set >
+      <if test="sensorId != null" >
+        sensor_id = #{sensorId,jdbcType=VARCHAR},
+      </if>
+      <if test="hotOuttem != null" >
+        hot_outTem = #{hotOuttem,jdbcType=REAL},
+      </if>
+      <if test="hotIntem != null" >
+        hot_inTem = #{hotIntem,jdbcType=REAL},
+      </if>
+      <if test="hotFlow != null" >
+        hot_flow = #{hotFlow,jdbcType=REAL},
+      </if>
+      <if test="hotTotal != null" >
+        hot_total = #{hotTotal,jdbcType=REAL},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.cn.tju.pojo.Hot" >
+    update hot
+    set sensor_id = #{sensorId,jdbcType=VARCHAR},
+      hot_outTem = #{hotOuttem,jdbcType=REAL},
+      hot_inTem = #{hotIntem,jdbcType=REAL},
+      hot_flow = #{hotFlow,jdbcType=REAL},
+      hot_total = #{hotTotal,jdbcType=REAL},
+      datetime = #{datetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--补充查询条件-->
+
+  <select id="queryHotTotalBySensorId" parameterType="java.lang.String" resultType="java.lang.Float" >
+    select hot_total from hot
+    where sensor_id = #{sensorId,jdbcType=VARCHAR}
+  </select>
+
+</mapper>
+

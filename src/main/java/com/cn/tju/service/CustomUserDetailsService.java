@@ -1,7 +1,8 @@
 package com.cn.tju.service;
 
+import com.cn.tju.pojo.Role;
 import com.cn.tju.pojo.User;
-import lombok.Setter;
+import com.cn.tju.service.impl.RoleServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,9 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * 一个自定义的service用来和数据库进行操作. 即以后我们要通过数据库保存权限.则需要我们继承UserDetailsService
@@ -25,6 +24,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Resource
     private UserService userServiceImpl;
+    @Resource
+    private RoleService roleServiceImpl;
 
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException, DataAccessException {
@@ -35,19 +36,22 @@ public class CustomUserDetailsService implements UserDetailsService {
 
             // 搜索数据库以匹配用户登录名.
             // 我们可以通过dao使用JDBC来访问数据库
+            log.info(new Date().getTime()+":try to login the system and username is:"+username);
+
             User dbUser = this.userServiceImpl.selectLogin(username);
 
             // Populate the Spring User object with details from the dbUser
             // Here we just pass the username, password, and access level
             // getAuthorities() will translate the access level to the correct
             // role type
-
-            user = new org.springframework.security.core.userdetails.User(dbUser.getUsername(), dbUser.getPassword()
-                    .toLowerCase(), true, true, true, true,
-                    getAuthorities(dbUser.getAccess()));
+            List<GrantedAuthority> userAuthoritySet = new ArrayList<GrantedAuthority>();
+            if(dbUser==null)
+                throw new UsernameNotFoundException("用户" + username + " 不存在");
+            userAuthoritySet = getAuthorities(dbUser.getUserId());
+            user = buildUserForAuthentication(dbUser,userAuthoritySet);
 
         } catch (Exception e) {
-            log.error("Error in retrieving user");
+            log.error("登录出现错误:"+username+":"+e.toString());
             throw new UsernameNotFoundException("Error in retrieving user");
         }
 
@@ -57,23 +61,29 @@ public class CustomUserDetailsService implements UserDetailsService {
     /**
      * 获得访问角色权限
      *
-     * @param access
+     * @param userId
      * @return
      */
-    public Collection<GrantedAuthority> getAuthorities(Integer access) {
+    public List<GrantedAuthority> getAuthorities(int userId) {
 
-        List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>(2);
-
-        // 所有的用户默认拥有ROLE_USER权限
-        log.debug("Grant ROLE_USER to this user");
-        authList.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-        // 如果参数access为1.则拥有ROLE_ADMIN权限
-        if (access.compareTo(1) == 0) {
-            log.debug("Grant ROLE_ADMIN to this user");
-            authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        List<Role> roles = roleServiceImpl.selectRolesByUserId(userId);
+        Set<GrantedAuthority> userAuthSet = new HashSet<GrantedAuthority>();
+        for(Role userRole : roles)
+        {
+            userAuthSet.add(new SimpleGrantedAuthority(userRole.getRoleName()));
         }
+        List<GrantedAuthority> result = new ArrayList<GrantedAuthority>(userAuthSet);
+        return result;
+    }
 
-        return authList;
+
+    /**
+     * 返回验证用户
+     * @param user
+     * @param authorities
+     * @return
+     */
+    private org.springframework.security.core.userdetails.User buildUserForAuthentication(User user,List<GrantedAuthority> authorities){
+        return new org.springframework.security.core.userdetails.User(user.getUserName(),user.getUserPwd(),true,true,true,true,authorities);
     }
 }

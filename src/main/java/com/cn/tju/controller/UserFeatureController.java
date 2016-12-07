@@ -33,8 +33,14 @@ public class UserFeatureController {
         return "admin/circle";
     }
 
-    @RequestMapping(value = "/data", method = RequestMethod.GET)
+    @RequestMapping(value = "/data_nh", method = RequestMethod.GET)
     public String data(HttpServletRequest request, Model model) {
+        log.info("data");
+        return "admin/data_cmp";
+    }
+    
+    @RequestMapping(value = "/data_nx", method = RequestMethod.GET)
+    public String data_cmp(HttpServletRequest request, Model model) {
         log.info("data");
         return "admin/data";
     }
@@ -56,4 +62,17 @@ public class UserFeatureController {
         log.info("machine");
         return "admin/machine";
     }
+
+    @RequestMapping(value = "/userInfo")
+    public String userInfo(HttpServletRequest request, Model model) {
+        log.info("machine");
+        return "user/user_info";
+    }
+
+    @RequestMapping(value = "/lockScreen")
+    public String lockScreen(HttpServletRequest request, Model model) {
+        log.info("machine");
+        return "user/user_lock";
+    }
+
 }

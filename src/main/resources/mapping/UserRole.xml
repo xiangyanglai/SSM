@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--通过接口方式访问数据库-->
+
+<mapper namespace="com.cn.tju.IDao.RoleDao">
+
+    <resultMap id="BaseResultMap" type="com.cn.tju.pojo.Role">
+        <result column="userid" property="userId" jdbcType="VARCHAR"/>
+        <result column="rolename" property="roleName" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, userid,rolename , enabled
+  </sql>
+
+
+    <select id="selectAllRoles" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_roles
+    </select>
+
+    <select id="selectRolesByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from user_roles
+        where userid = #{userId,jdbcType=INTEGER} AND enabled = 1
+    </select>
+
+</mapper>
